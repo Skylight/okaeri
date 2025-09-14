@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+echo "Okaeri $OKAERI_VERSION"
