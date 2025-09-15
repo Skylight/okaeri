@@ -12,7 +12,7 @@ if [ ! -d "$HOME/okaeri" ]; then
 	git clone git@github.com:Skylight/okaeri.git
 fi
 
-grep -qxF '. $HOME/okaeri/core/bash/initialize' $HOME/.bashrc || printf "\n\n# Okaeri (https://github.com/Skylight/okaeri)\n. $HOME/okaeri/core/bash/initialize\n" >> $HOME/.bashrc
+grep -qxF '. \$HOME/okaeri/core/bash/initialize' $HOME/.bashrc || printf "\n\n# Okaeri (https://github.com/Skylight/okaeri)\n. \$HOME/okaeri/core/bash/initialize\n" >> $HOME/.bashrc
 
 echo ""
 echo "Okaeri installed"
