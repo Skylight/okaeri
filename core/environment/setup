@@ -12,3 +12,23 @@ gsettings set org.gnome.desktop.background picture-uri ""
 gsettings set org.gnome.desktop.background primary-color "#304656"
 gsettings set org.gnome.desktop.background secondary-color "#304656"
 gsettings set org.gnome.desktop.background color-shading-type "solid"
+
+# Snap packages
+
+sudo snap install git-scm
+
+# # APT packages
+
+# sudo apt update
+
+# sudo apt install jq \
+# 	awscli \
+# 	ruby-build \
+# 	libmysqlclient-dev \
+# 	libpq-dev \
+# 	openssh-server \
+# 	nodejs \
+# 	npm \
+# 	php-cli \
+# 	default-jre \
+# 	pv
