@@ -13,22 +13,31 @@ gsettings set org.gnome.desktop.background primary-color "#304656"
 gsettings set org.gnome.desktop.background secondary-color "#304656"
 gsettings set org.gnome.desktop.background color-shading-type "solid"
 
-# Snap packages
+# Setup APT PPA maintained repositories
 
-sudo snap install git-scm
+sudo apt update
+sudo apt install software-properties-common
 
-# # APT packages
+sudo add-apt-repository ppa:git-core/ppa
 
-# sudo apt update
+## APT Packages
 
-# sudo apt install jq \
-# 	awscli \
-# 	ruby-build \
-# 	libmysqlclient-dev \
-# 	libpq-dev \
-# 	openssh-server \
-# 	nodejs \
-# 	npm \
-# 	php-cli \
-# 	default-jre \
-# 	pv
+sudo apt update
+
+sudo apt -y install \
+	git \
+	jq \
+	awscli \
+	ruby-build \
+	libmysqlclient-dev \
+	libpq-dev \
+	openssh-server \
+	nodejs \
+	npm \
+	php-cli \
+	default-jre \
+	pv
+
+
+
+sudo apt autoremove
