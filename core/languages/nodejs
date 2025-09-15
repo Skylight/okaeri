@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sudo apt -y nodejs \
+    npm
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+
+echo "Install the latest long term support version by opening a new terminal and then"
+echo "\n\tnvm install --lts\n"
