@@ -14,5 +14,16 @@ if [ -d "$HOME/.rbenv" ]; then
 	export PATH="$HOME/.rbenv/bin:$PATH"
 fi
 
+if [ ! -d "$HOME/Tmp" ]; then
+	mkdir "$HOME/Tmp"
+fi
+
+if [ ! -d "$HOME/Work" ]; then
+	mkdir "$HOME/Work"
+fi
+
+if [ ! -d "$HOME/DockerVolumes" ]; then
+	mkdir "$HOME/DockerVolumes"
+fi
 
 echo "Okaeri $OKAERI_VERSION"

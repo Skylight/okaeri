@@ -17,13 +17,8 @@ From within `Pop!_Shop`, remove the following packages;
 
 Based on [Toolbox App installation](https://www.jetbrains.com/help/toolbox-app/toolbox-app-silent-installation.html#tba_installation).
 
-```bash
-sudo apt install libfuse2
-```
-
-Download [JetBrains toolbox app](https://www.jetbrains.com/toolbox-app/).
-
-Extract the package and run the installer;
+* Download [JetBrains toolbox app](https://www.jetbrains.com/toolbox-app/).
+* Extract the package and run the installer;
 
 ```bash
 tar -xzf jetbrains-toolbox-<build>.tar.gz && cd jetbrains-toolbox-<build>/bin && ./jetbrains-toolbox
