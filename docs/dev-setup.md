@@ -10,3 +10,9 @@ From within `Pop!_Shop`, remove the following packages;
 * `chrome`
 * `firefox`
 * `vs code`
+
+Download [JetBrains toolbox app](https://www.jetbrains.com/toolbox-app/), log in and install;
+
+* `PhpStorm`
+* `RubyMine`
+* `DataGrip`
