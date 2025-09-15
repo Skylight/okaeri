@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+# Desktop layout - remove background image
+
+gsettings set org.gnome.desktop.background picture-options 'none'
+gsettings set org.gnome.desktop.background picture-uri ""
+
+# Desktop layout - set background color
+
+gsettings set org.gnome.desktop.background primary-color "#304656"
+gsettings set org.gnome.desktop.background secondary-color "#304656"
+gsettings set org.gnome.desktop.background color-shading-type "solid"
