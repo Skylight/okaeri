@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ ! -d "$HOME/.rbenv" ]; then
+    echo "You need to run \`core/setup\` first to install rbenv"
+    exit 1
+fi
+
+rbenv install 3.4.5
+rbenv global 3.4.5
