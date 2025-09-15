@@ -2,4 +2,18 @@
 
 source "$HOME/okaeri/config/boot"
 
+
+# VS Code
+
+alias code="flatpak run com.visualstudio.code &>/dev/null"
+
+
+# RB Env
+
+if [ -d "$HOME/.rbenv" ]; then
+	export PATH="$HOME/.rbenv/bin:$PATH"
+	eval "$(rbenv init -)"
+fi
+
+
 echo "Okaeri $OKAERI_VERSION"

@@ -25,22 +25,32 @@ sudo add-apt-repository ppa:git-core/ppa
 sudo apt update
 
 sudo apt -y install \
+	autoconf \
 	awscli \
+	bison \
+	build-essential \
 	ca-certificates \
 	curl \
 	gnupg \
 	default-jre \
 	git \
 	jq \
+	libffi-dev \
+	libgdbm-dev \
 	libmysqlclient-dev \
+	libncurses5-dev \
 	libpq-dev \
+	libreadline-dev \
+	libssl-dev \
+	libyaml-dev \
 	lsb-release \
 	nodejs \
 	npm \
 	openssh-server \
 	php-cli \
 	pv \
-	ruby-build
+	ruby-build \
+	zlib1g-dev
 
 ## Docker
 
@@ -53,7 +63,7 @@ echo \
 
 sudo apt update
 
-sudo apt install \
+sudo apt -y install \
 	containerd.io \
 	docker-buildx-plugin \
 	docker-ce \
@@ -62,7 +72,15 @@ sudo apt install \
 
 sudo chmod 666 /var/run/docker.sock
 
-sudo service docker status
+## RB Env
+
+curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+rbenv install 3.4.5
+rbenv global 3.4.5
 
 ## APT cleanup
 
