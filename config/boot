@@ -2,3 +2,6 @@
 
 OKAERI_PATH="$HOME/okaeri"
 OKAERI_VERSION="0.0.1"
+
+
+alias code="flatpak run com.visualstudio.code &>/dev/null"
