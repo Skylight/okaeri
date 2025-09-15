@@ -45,8 +45,6 @@ sudo apt -y install \
 	libssl-dev \
 	libyaml-dev \
 	lsb-release \
-	nodejs \
-	npm \
 	openssh-server \
 	pv \
 	ruby-build \
