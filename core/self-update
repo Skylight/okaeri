@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+cd $OKAERI_PATH
+git pull
+cd $HOME
