@@ -2,6 +2,15 @@
 
 ## Setup
 
+### Change machine name
+
+Change your machine name before anything else.
+
+```
+Settings -> About -> Machine Name
+```
+
+Then reboot.
 
 ### Generate SSH keys and add them to GitHub
 
