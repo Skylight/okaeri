@@ -14,7 +14,7 @@ export OKAERI_WORK_PATH
 # VS Code
 
 alias code="flatpak run com.visualstudio.code &>/dev/null"
-alias bake="rake --rakefile $OKAERI_PATH/projects/setup/Rakefile"
+alias bake="rake --rakefile $OKAERI_PATH/lib/projects/setup/Rakefile"
 
 # RB Env
 
