@@ -1,0 +1,2 @@
+module Okaeri
+end

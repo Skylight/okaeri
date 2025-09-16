@@ -2,28 +2,24 @@
 
 source "$HOME/okaeri/config/boot"
 
+# Exports
+
+export OKAERI_PATH
+export OKAERI_VERSION
+
+export OKAERI_DOCKER_VOLUMES_PATH
+export OKAERI_TMP_PATH
+export OKAERI_WORK_PATH
 
 # VS Code
 
 alias code="flatpak run com.visualstudio.code &>/dev/null"
-
+alias bake="rake --rakefile $OKAERI_PATH/projects/setup/Rakefile"
 
 # RB Env
 
 if [ -d "$HOME/.rbenv" ]; then
 	export PATH="$HOME/.rbenv/bin:$PATH"
-fi
-
-if [ ! -d "$HOME/Tmp" ]; then
-	mkdir "$HOME/Tmp"
-fi
-
-if [ ! -d "$HOME/Work" ]; then
-	mkdir "$HOME/Work"
-fi
-
-if [ ! -d "$HOME/DockerVolumes" ]; then
-	mkdir "$HOME/DockerVolumes"
 fi
 
 echo "Okaeri $OKAERI_VERSION"

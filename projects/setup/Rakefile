@@ -1,0 +1,11 @@
+Dir.glob(File.join(__dir__, 'helpers', '**', '*.rb')).each { |r| require r }
+Dir.glob(File.join(__dir__, 'tasks', '**', '*.rake')).each { |r| import r }
+
+desc "Describes this tool"
+task :description do
+  puts "Use `bake` to setup and maintain your projects."
+  puts "To get a list of all tasks, run:"
+  puts "\tbake --tasks"
+end
+
+task :default => :description

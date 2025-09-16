@@ -48,6 +48,7 @@ sudo apt -y install \
 	openssh-server \
 	pv \
 	ruby-build \
+	tree \
 	zlib1g-dev
 
 ## Docker
