@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Okaeri
   class Disk
     def self.ensure_path!(path)
@@ -14,6 +16,10 @@ module Okaeri
 
       current_mode = File.stat(path).mode & 0777
       File.chmod(mode, path) if mode != current_mode
+    end
+
+    def self.touch!(file)
+      FileUtils.touch(file)
     end
   end
 end
