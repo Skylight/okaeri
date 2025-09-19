@@ -20,14 +20,14 @@ gsettings set org.gnome.desktop.wm.preferences focus-new-windows "strict"
 sudo apt update
 sudo apt install software-properties-common
 
-sudo add-apt-repository ppa:git-core/ppa
-sudo add-apt-repository ppa:ondrej/php
+sudo add-apt-repository --yes ppa:git-core/ppa
+sudo add-apt-repository --yes ppa:ondrej/php
 
 ## APT Packages
 
 sudo apt update
 
-sudo apt -y install \
+sudo apt --yes install \
 	autoconf \
 	awscli \
 	bison \
@@ -55,16 +55,16 @@ sudo apt -y install \
 
 ## Docker
 
-sudo apt remove docker docker-engine docker.io containerd runc
+sudo apt remove --yes docker docker-engine docker.io containerd runc
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt update
 
-sudo apt -y install \
+sudo apt --yes install \
 	containerd.io \
 	docker-buildx-plugin \
 	docker-ce \
