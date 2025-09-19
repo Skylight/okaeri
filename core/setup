@@ -13,6 +13,8 @@ gsettings set org.gnome.desktop.background primary-color "#304656"
 gsettings set org.gnome.desktop.background secondary-color "#304656"
 gsettings set org.gnome.desktop.background color-shading-type "solid"
 
+gsettings set org.gnome.desktop.wm.preferences focus-new-windows "strict"
+
 # Setup APT PPA maintained repositories
 
 sudo apt update
