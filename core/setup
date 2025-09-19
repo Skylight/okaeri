@@ -77,6 +77,10 @@ sudo chmod 666 /var/run/docker.sock
 
 curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
 
+## RClone
+
+sudo -v ; curl https://rclone.org/install.sh | sudo bash
+
 ## APT cleanup
 
 sudo apt autoremove
