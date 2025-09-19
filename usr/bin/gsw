@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+filter = ''
+branch = ''
+
+if ARGV.size > 0
+  filter = ARGV[0]
+end
+
+def render_branches(branches)
+  puts "\n\nBranches\n\n"
+  branches.each_with_index do |branch, index|
+    puts "#{index + 1}.\t#{branch}"
+  end
+
+  print "\n\nEnter a valid branch number (1-#{branches.size}): "
+end
+
+output = `git branch`
+
+if $? != 0
+  puts "\n\nYou're probably not in a directory with a git repository?\n\n"
+  exit
+end
+
+branches = output.split(/\n/).map{ |line| line.gsub(/\A[\s*]+/, '') }.select{ |branch| filter.empty? || branch.include?(filter) }
+
+branch = branches[0] if branches.size == 1
+
+if branch.empty?
+  render_branches(branches)
+  while(number = STDIN.gets.chomp.to_i)
+    break if (number > 0) && (number <= branches.size)
+    puts "\n\nInvalid input #{number}, pick one of the following numbers\n\n"
+    render_branches(branches)
+  end
+
+  branch = branches[number - 1]
+end
+
+puts "\n\nSwitching to #{branch}\n\n"
+
+`git switch #{branch}`

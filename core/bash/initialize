@@ -11,6 +11,8 @@ export OKAERI_DOCKER_VOLUMES_PATH
 export OKAERI_TMP_PATH
 export OKAERI_WORK_PATH
 
+export PATH="$OKAERI_PATH/usr/bin:$PATH"
+
 # VS Code
 
 alias code="flatpak run com.visualstudio.code &>/dev/null"
