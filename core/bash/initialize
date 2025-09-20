@@ -24,4 +24,30 @@ if [ -d "$HOME/.rbenv" ]; then
 	export PATH="$HOME/.rbenv/bin:$PATH"
 fi
 
+# Working Directories
+
+if [ ! -d $OKAERI_DOCKER_VOLUMES_PATH ]; then
+	mkdir $OKAERI_DOCKER_VOLUMES_PATH
+	touch "$OKAERI_DOCKER_VOLUMES_PATH/.ignore-sync"
+fi
+
+if [ ! -d $OKAERI_BUILD_PATH ]; then
+	mkdir $OKAERI_BUILD_PATH
+	touch "$OKAERI_BUILD_PATH/.ignore-sync"
+fi
+
+if [ ! -d $OKAERI_DUMP_PATH ]; then
+	mkdir $OKAERI_DUMP_PATH
+	touch "$OKAERI_DUMP_PATH/.ignore-sync"
+fi
+
+if [ ! -d $OKAERI_TMP_PATH ]; then
+	mkdir $OKAERI_TMP_PATH
+	touch "$OKAERI_TMP_PATH/.ignore-sync"
+fi
+
+if [ ! -d $OKAERI_WORK_PATH ]; then
+	mkdir $OKAERI_WORK_PATH
+fi
+
 echo "Okaeri $OKAERI_VERSION"
