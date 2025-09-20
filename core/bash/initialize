@@ -7,6 +7,8 @@ source "$HOME/okaeri/config/boot"
 export OKAERI_PATH
 export OKAERI_VERSION
 
+export OKAERI_HOSTNAME
+
 export OKAERI_INITIALIZE_SCRIPT
 
 export OKAERI_DOCKER_VOLUMES_PATH

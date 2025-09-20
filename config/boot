@@ -2,6 +2,7 @@
 
 OKAERI_PATH="$HOME/okaeri"
 OKAERI_VERSION="0.0.1"
+OKAERI_HOSTNAME=$(hostname)
 
 OKAERI_DOCKER_VOLUMES_PATH="$HOME/DockerVolumes"
 OKAERI_BUILD_PATH="$HOME/Build"
@@ -11,3 +12,8 @@ OKAERI_TOOLS_PATH="$HOME/Tools"
 OKAERI_WORK_PATH="$HOME/Work"
 
 OKAERI_INITIALIZE_SCRIPT="$OKAERI_PATH/core/bash/initialize"
+
+
+if [ -f "$OKAERI_PATH/config/override" ]; then
+	source "$OKAERI_PATH/config/override"
+fi
