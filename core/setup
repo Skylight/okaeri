@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 source "$HOME/okaeri/config/boot"
 
 # Desktop layout - remove background image
@@ -77,10 +79,38 @@ sudo chmod 666 /var/run/docker.sock
 
 curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
 
-## RClone
+## rClone
 
 sudo -v ; curl https://rclone.org/install.sh | sudo bash
+
+## SqlPackage
+
+# https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-download
+
+SQLPACKAGE_LINK=https://download.microsoft.com/download/ae5f757d-1e6a-43c6-8a95-9da51fbc155c/sqlpackage-linux-x64-en-170.1.61.1.zip
+SQLPACKAGE_ZIP=$OKAERI_BUILD_PATH/sqlpackage-linux-x64-en.zip
+SQLPACKAGE_TOOLS_PATH=$OKAERI_TOOLS_PATH/sqlpackage
+
+if [ ! -f $SQLPACKAGE_ZIP ]; then
+	curl $SQLPACKAGE_LINK --output $SQLPACKAGE_ZIP
+fi
+
+if [ ! -d $SQLPACKAGE_TOOLS_PATH ]; then
+	unzip $SQLPACKAGE_ZIP -d $SQLPACKAGE_TOOLS_PATH
+fi
+
+chmod 755 "$SQLPACKAGE_TOOLS_PATH/sqlpackage"
 
 ## APT cleanup
 
 sudo apt autoremove
+
+echo ""
+echo ""
+echo "Oakeri - Setup complete"
+echo "======================="
+echo
+echo "Either restart a terminal or load the initialization script;"
+echo ""
+echo ". $OKAERI_INITIALIZE_SCRIPT"
+echo ""

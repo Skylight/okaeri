@@ -7,8 +7,13 @@ source "$HOME/okaeri/config/boot"
 export OKAERI_PATH
 export OKAERI_VERSION
 
+export OKAERI_INITIALIZE_SCRIPT
+
 export OKAERI_DOCKER_VOLUMES_PATH
+export OKAERI_BUILD_PATH
+export OKAERI_DUMP_PATH
 export OKAERI_TMP_PATH
+export OKAERI_TOOLS_PATH
 export OKAERI_WORK_PATH
 
 export PATH="$OKAERI_PATH/usr/bin:$PATH"
@@ -22,6 +27,12 @@ alias bake="rake --rakefile $OKAERI_PATH/lib/projects/setup/Rakefile"
 
 if [ -d "$HOME/.rbenv" ]; then
 	export PATH="$HOME/.rbenv/bin:$PATH"
+fi
+
+## SQLPackage
+
+if [ -d "$OKAERI_TOOLS_PATH/sqlpackage" ]; then
+	export PATH="$OKAERI_TOOLS_PATH/sqlpackage:$PATH"
 fi
 
 # Working Directories
@@ -44,6 +55,11 @@ fi
 if [ ! -d $OKAERI_TMP_PATH ]; then
 	mkdir $OKAERI_TMP_PATH
 	touch "$OKAERI_TMP_PATH/.ignore-sync"
+fi
+
+if [ ! -d $OKAERI_TOOLS_PATH ]; then
+	mkdir $OKAERI_TOOLS_PATH
+	touch "$OKAERI_TOOLS_PATH/.ignore-sync"
 fi
 
 if [ ! -d $OKAERI_WORK_PATH ]; then
