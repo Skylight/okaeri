@@ -1,0 +1,40 @@
+#!/bin/bash
+
+echo
+echo
+echo "Oakeri - Tools - developer essentials"
+echo "====================================="
+echo
+
+sudo apt update
+
+sudo apt install software-properties-common
+
+sudo add-apt-repository --yes ppa:git-core/ppa
+
+sudo apt --yes install \
+	autoconf \
+	awscli \
+	bison \
+	build-essential \
+	ca-certificates \
+	curl \
+	gnupg \
+	default-jre \
+	git \
+	jq \
+	libffi-dev \
+	libgdbm-dev \
+	libmysqlclient-dev \
+	libncurses5-dev \
+	libpq-dev \
+	libreadline-dev \
+	libssl-dev \
+	libyaml-dev \
+	lsb-release \
+	openssh-server \
+	pv \
+	tree \
+	zlib1g-dev
+
+sudo apt autoremove --yes

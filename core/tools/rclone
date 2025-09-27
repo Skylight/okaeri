@@ -1,0 +1,27 @@
+#!/bin/bash
+
+echo
+echo
+echo "Oakeri - Tools - rclone"
+echo "======================="
+echo
+
+sudo apt update
+
+sudo apt remove --yes \
+	rclone
+
+if [ ! command -v rclone >/dev/null 2>&1 ]; then
+	sudo -v ; curl https://rclone.org/install.sh | sudo bash
+else
+	echo
+	echo
+	echo "rclone already installed, running \`rclone selfupdate\` instead"
+	echo
+	echo
+	rclone selfupdate
+fi
+
+
+
+sudo apt autoremove --yes

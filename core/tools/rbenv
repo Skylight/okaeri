@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo
+echo
+echo "Oakeri - Tools - rbenv"
+echo "======================"
+echo
+
+sudo apt update
+
+sudo apt remove --yes \
+	rbenv \
+	ruby-build
+
+if [ ! -d "$HOME/.rbenv" ]; then
+	curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+	git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+else
+	echo
+	echo
+	echo "$HOME/.rbenv already exists, skipped installation"
+	echo
+	echo
+fi
+
+sudo apt autoremove --yes

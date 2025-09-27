@@ -1,4 +1,10 @@
 #!/bin/bash
 
+sudo apt update
+
+sudo add-apt-repository --yes ppa:ondrej/php
+
 sudo apt -y install \
     php-cli
+
+sudo apt autoremove --yes

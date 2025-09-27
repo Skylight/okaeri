@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo
+echo
+echo "Oakeri - Tools - sqlpackage"
+echo "==========================="
+echo
+
+# https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-download
+
+SQLPACKAGE_LINK=https://download.microsoft.com/download/ae5f757d-1e6a-43c6-8a95-9da51fbc155c/sqlpackage-linux-x64-en-170.1.61.1.zip
+SQLPACKAGE_ZIP=$OKAERI_BUILD_PATH/sqlpackage-linux-x64-en.zip
+SQLPACKAGE_TOOLS_PATH=$OKAERI_TOOLS_PATH/sqlpackage
+
+if [ ! -f $SQLPACKAGE_ZIP ]; then
+	curl $SQLPACKAGE_LINK --output $SQLPACKAGE_ZIP
+fi
+
+if [ ! -d $SQLPACKAGE_TOOLS_PATH ]; then
+	unzip $SQLPACKAGE_ZIP -d $SQLPACKAGE_TOOLS_PATH
+fi
+
+chmod 755 "$SQLPACKAGE_TOOLS_PATH/sqlpackage"

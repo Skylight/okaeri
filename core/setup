@@ -4,113 +4,32 @@ set -e
 
 source "$HOME/okaeri/config/boot"
 
-# Desktop layout - remove background image
+source "$OKAERI_PATH/core/config/desktop"
+source "$OKAERI_PATH/core/config/git"
 
-gsettings set org.gnome.desktop.background picture-options 'none'
-gsettings set org.gnome.desktop.background picture-uri ""
-
-# Desktop layout - set background color
-
-gsettings set org.gnome.desktop.background primary-color "#304656"
-gsettings set org.gnome.desktop.background secondary-color "#304656"
-gsettings set org.gnome.desktop.background color-shading-type "solid"
-
-gsettings set org.gnome.desktop.wm.preferences focus-new-windows "strict"
-
-# Setup APT PPA maintained repositories
-
-sudo apt update
-sudo apt install software-properties-common
-
-sudo add-apt-repository --yes ppa:git-core/ppa
-sudo add-apt-repository --yes ppa:ondrej/php
-
-## APT Packages
-
-sudo apt update
-
-sudo apt --yes install \
-	autoconf \
-	awscli \
-	bison \
-	build-essential \
-	ca-certificates \
-	curl \
-	gnupg \
-	default-jre \
-	git \
-	jq \
-	libffi-dev \
-	libgdbm-dev \
-	libmysqlclient-dev \
-	libncurses5-dev \
-	libpq-dev \
-	libreadline-dev \
-	libssl-dev \
-	libyaml-dev \
-	lsb-release \
-	openssh-server \
-	pv \
-	ruby-build \
-	tree \
-	zlib1g-dev
-
-## Docker
-
-sudo apt remove --yes docker docker-engine docker.io containerd runc
-
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-sudo apt update
-
-sudo apt --yes install \
-	containerd.io \
-	docker-buildx-plugin \
-	docker-ce \
-	docker-ce-cli \
-	docker-compose-plugin
-
-sudo chmod 666 /var/run/docker.sock
-
-## RB Env
-
-curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
-
-## rClone
-
-sudo -v ; curl https://rclone.org/install.sh | sudo bash
-
-## SqlPackage
-
-# https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-download
-
-SQLPACKAGE_LINK=https://download.microsoft.com/download/ae5f757d-1e6a-43c6-8a95-9da51fbc155c/sqlpackage-linux-x64-en-170.1.61.1.zip
-SQLPACKAGE_ZIP=$OKAERI_BUILD_PATH/sqlpackage-linux-x64-en.zip
-SQLPACKAGE_TOOLS_PATH=$OKAERI_TOOLS_PATH/sqlpackage
-
-if [ ! -f $SQLPACKAGE_ZIP ]; then
-	curl $SQLPACKAGE_LINK --output $SQLPACKAGE_ZIP
-fi
-
-if [ ! -d $SQLPACKAGE_TOOLS_PATH ]; then
-	unzip $SQLPACKAGE_ZIP -d $SQLPACKAGE_TOOLS_PATH
-fi
-
-chmod 755 "$SQLPACKAGE_TOOLS_PATH/sqlpackage"
+source "$OKAERI_PATH/core/tools/developer-essentials"
+source "$OKAERI_PATH/core/tools/docker"
+source "$OKAERI_PATH/core/tools/rbenv"
+source "$OKAERI_PATH/core/tools/rclone"
+source "$OKAERI_PATH/core/tools/sqlpackage"
 
 ## APT cleanup
 
-sudo apt autoremove
+sudo apt autoremove --yes
 
-echo ""
-echo ""
+. $OKAERI_INITIALIZE_SCRIPT
+
+source "$OKAERI_PATH/usr/bin/rbenv-update"
+source "$OKAERI_PATH/core/languages/ruby"
+
+. $OKAERI_INITIALIZE_SCRIPT
+
+echo
+echo
 echo "Oakeri - Setup complete"
 echo "======================="
 echo
 echo "Either restart a terminal or load the initialization script;"
-echo ""
+echo
 echo ". $OKAERI_INITIALIZE_SCRIPT"
-echo ""
+echo
