@@ -4,6 +4,10 @@ set -e
 
 source "$HOME/okaeri/config/boot"
 
+sudo apt update
+
+sudo apt upgrade
+
 source "$OKAERI_PATH/core/config/desktop"
 source "$OKAERI_PATH/core/config/git"
 
@@ -13,16 +17,14 @@ source "$OKAERI_PATH/core/tools/rbenv"
 source "$OKAERI_PATH/core/tools/rclone"
 source "$OKAERI_PATH/core/tools/sqlpackage"
 
-## APT cleanup
-
-sudo apt autoremove --yes
-
 . $OKAERI_INITIALIZE_SCRIPT
 
 source "$OKAERI_PATH/usr/bin/rbenv-update"
 source "$OKAERI_PATH/core/languages/ruby"
 
 . $OKAERI_INITIALIZE_SCRIPT
+
+sudo apt autoremove --yes
 
 echo
 echo
