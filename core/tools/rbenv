@@ -13,12 +13,14 @@ sudo apt remove --yes \
 	ruby-build \
 	|| true
 
-if [ ! -d "$HOME/.rbenv" ]; then
+rbenv="$(command -v rbenv | head -1)"
+
+if [ ! -n "$rbenv" ]; then
 	curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
 else
 	echo
 	echo
-	echo "$HOME/.rbenv already exists, skipped installation"
+	echo "rbenv already installed"
 	echo
 	echo
 fi
