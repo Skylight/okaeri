@@ -6,7 +6,7 @@ source "$HOME/okaeri/config/boot"
 
 sudo apt update
 
-sudo apt upgrade
+sudo apt upgrade --yes
 
 source "$OKAERI_PATH/core/config/desktop"
 source "$OKAERI_PATH/core/config/git"
@@ -31,6 +31,6 @@ echo
 echo "Oakeri - Setup complete"
 echo "======================="
 echo
-echo "Restart your machine to complete setup (reboot necessary for \`docker\`)"
+echo "Restart your machine to complete setup (reboot necessary for docker)"
 echo
 echo
