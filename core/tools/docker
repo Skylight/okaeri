@@ -14,7 +14,8 @@ sudo apt remove --yes \
 	docker \
 	docker-engine \
 	docker.io \
-	runc
+	runc \
+	|| true
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \

@@ -10,7 +10,8 @@ sudo apt update
 
 sudo apt remove --yes \
 	rbenv \
-	ruby-build
+	ruby-build \
+	|| true
 
 if [ ! -d "$HOME/.rbenv" ]; then
 	curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash

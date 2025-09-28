@@ -9,7 +9,8 @@ echo
 sudo apt update
 
 sudo apt remove --yes \
-	rclone
+	rclone \
+	|| true
 
 if [ ! command -v rclone >/dev/null 2>&1 ]; then
 	sudo -v ; curl https://rclone.org/install.sh | sudo bash
