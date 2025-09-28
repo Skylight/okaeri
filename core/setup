@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+# set -e
 
 source "$HOME/okaeri/config/boot"
 
@@ -29,7 +29,6 @@ echo
 echo "Oakeri - Setup complete"
 echo "======================="
 echo
-echo "Either restart a terminal or load the initialization script;"
+echo "Restart your machine to complete setup (reboot necessary for \`docker\`)"
 echo
-echo ". $OKAERI_INITIALIZE_SCRIPT"
 echo

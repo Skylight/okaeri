@@ -14,11 +14,18 @@ fi
 
 grep -qxF '. \$HOME/okaeri/core/bash/initialize' $HOME/.bashrc || printf "\n\n# Okaeri (https://github.com/Skylight/okaeri)\n. \$HOME/okaeri/core/bash/initialize\n" >> $HOME/.bashrc
 
-echo ""
+echo
+echo
 echo "Okaeri installed"
 echo "================"
-echo ""
+echo
 echo "The next time you connect to the terminal, the boot script will be loaded. To run the boot script now, type:"
-echo ""
+echo
 echo ". okaeri/core/bash/initialize"
-echo ""
+echo
+echo
+echo "Install essential tools:"
+echo
+echo "~/okaeri/core/setup"
+echo
+echo
