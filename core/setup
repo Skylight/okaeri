@@ -34,6 +34,8 @@ echo
 echo "Oakeri - Setup complete"
 echo "======================="
 echo
-echo "Restart your machine to complete setup."
+echo "The setup process has stopped packagekit for updates."
+echo
+echo "Restart your machine to complete the setup."
 echo
 echo
