@@ -3,7 +3,7 @@
 set -e
 
 if ! type -p git >/dev/null; then
-	sudo apt install git -y git
+	sudo apt -o DPkg::Lock::Timeout=60 --yes install git
 fi
 
 if [ ! -d "$HOME/okaeri" ]; then

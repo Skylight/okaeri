@@ -1,10 +1,10 @@
 #!/bin/bash
 
-sudo apt -o DPkg::Lock::Timeout=30 update
+sudo apt -o DPkg::Lock::Timeout=60 --yes update
 
 sudo add-apt-repository --yes ppa:ondrej/php
 
-sudo apt -y install \
+sudo apt -o DPkg::Lock::Timeout=60 --yes install  \
     php-cli
 
-sudo apt autoremove --yes
+sudo apt -o DPkg::Lock::Timeout=60 --yes autoremove

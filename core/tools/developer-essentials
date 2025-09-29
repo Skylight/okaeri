@@ -6,13 +6,13 @@ echo "Oakeri - Tools - developer essentials"
 echo "====================================="
 echo
 
-sudo apt -o DPkg::Lock::Timeout=30 update
+sudo apt -o DPkg::Lock::Timeout=60 --yes update
 
-sudo apt install software-properties-common
+sudo apt -o DPkg::Lock::Timeout=60 --yes install software-properties-common
 
 sudo add-apt-repository --yes ppa:git-core/ppa
 
-sudo apt --yes install \
+sudo apt -o DPkg::Lock::Timeout=60 --yes install \
 	autoconf \
 	awscli \
 	bison \
@@ -37,4 +37,4 @@ sudo apt --yes install \
 	tree \
 	zlib1g-dev
 
-sudo apt autoremove --yes
+sudo apt -o DPkg::Lock::Timeout=60 --yes autoremove

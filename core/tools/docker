@@ -7,9 +7,9 @@ echo "Oakeri - Tools - docker"
 echo "======================="
 echo
 
-sudo apt -o DPkg::Lock::Timeout=30 update
+sudo apt -o DPkg::Lock::Timeout=60 --yes update
 
-sudo apt remove --yes \
+sudo apt -o DPkg::Lock::Timeout=60 --yes remove \
 	containerd \
 	docker \
 	docker-engine \
@@ -22,9 +22,9 @@ echo \
 	"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
 	$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-sudo apt -o DPkg::Lock::Timeout=30 update
+sudo apt -o DPkg::Lock::Timeout=60 --yes update
 
-sudo apt --yes install \
+sudo apt -o DPkg::Lock::Timeout=60 --yes install \
 	containerd.io \
 	docker-buildx-plugin \
 	docker-ce \
@@ -33,4 +33,4 @@ sudo apt --yes install \
 
 sudo chmod 666 /var/run/docker.sock
 
-sudo apt autoremove --yes
+sudo apt -o DPkg::Lock::Timeout=60 --yes autoremove
