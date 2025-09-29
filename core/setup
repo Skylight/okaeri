@@ -4,7 +4,7 @@ set -e
 
 source "$HOME/okaeri/config/boot"
 
-sudo service packagekit stop || true
+service packagekit stop || true
 
 sudo apt --yes update
 
@@ -28,13 +28,13 @@ source "$OKAERI_PATH/core/languages/ruby"
 
 sudo apt --yes autoremove
 
-sudo service packagekit start || true
+service packagekit start || true
 
 echo
 echo
 echo "Oakeri - Setup complete"
 echo "======================="
 echo
-echo "Restart your machine to complete setup (reboot necessary for docker)"
+echo "Restart your machine to complete setup."
 echo
 echo
