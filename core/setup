@@ -5,6 +5,7 @@ set -e
 source "$HOME/okaeri/config/boot"
 
 service packagekit stop || true
+sudo service packagekit stop || true
 
 sudo apt --yes update
 
@@ -27,8 +28,6 @@ source "$OKAERI_PATH/core/languages/ruby"
 . $OKAERI_INITIALIZE_SCRIPT
 
 sudo apt --yes autoremove
-
-service packagekit start || true
 
 echo
 echo
