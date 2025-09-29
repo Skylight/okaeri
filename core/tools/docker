@@ -32,3 +32,5 @@ sudo apt --yes install \
 	docker-compose-plugin
 
 sudo apt --yes autoremove
+
+sudo usermod -aG docker $USER

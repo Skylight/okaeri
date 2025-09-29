@@ -27,26 +27,6 @@ echo "Okaeri $OKAERI_VERSION"
 alias code="flatpak run com.visualstudio.code &>/dev/null"
 alias bake="rake --rakefile $OKAERI_PATH/lib/projects/setup/Rakefile"
 
-# Docker sock file
-
-docker_sock="/var/run/docker.sock"
-
-if [ -S "$docker_sock" ]; then
-
-	docker_sock_mode=$(stat -c "%a" $docker_sock)
-
-	if [ "$docker_sock_mode" -ne 666 ]; then
-		echo
-		echo
-		echo "Your /var/run/docker.sock is not in the correct mode (666 needed, but is $docker_sock_mode). You will be asked for"
-		echo "your sudo password to change the file mode."
-		echo
-		echo
-
-		sudo chmod 666 /var/run/docker.sock
-	fi
-fi
-
 # RB Env
 
 if [ -d "$HOME/.rbenv" ]; then
