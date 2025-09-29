@@ -4,9 +4,11 @@ set -e
 
 source "$HOME/okaeri/config/boot"
 
-sudo apt -o DPkg::Lock::Timeout=60 --yes update
+sudo service packagekit stop || true
 
-sudo apt -o DPkg::Lock::Timeout=60 --yes upgrade
+sudo apt --yes update
+
+sudo apt --yes upgrade
 
 source "$OKAERI_PATH/core/config/desktop"
 source "$OKAERI_PATH/core/config/git"
@@ -24,7 +26,9 @@ source "$OKAERI_PATH/core/languages/ruby"
 
 . $OKAERI_INITIALIZE_SCRIPT
 
-sudo apt -o DPkg::Lock::Timeout=60 --yes autoremove
+sudo apt --yes autoremove
+
+sudo service packagekit start || true
 
 echo
 echo

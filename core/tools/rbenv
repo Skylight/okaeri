@@ -6,9 +6,9 @@ echo "Oakeri - Tools - rbenv"
 echo "======================"
 echo
 
-sudo apt -o DPkg::Lock::Timeout=60 --yes update
+sudo apt --yes update
 
-sudo apt -o DPkg::Lock::Timeout=60 --yes remove \
+sudo apt --yes remove \
 	rbenv \
 	ruby-build \
 	|| true
@@ -25,4 +25,4 @@ else
 	echo
 fi
 
-sudo apt -o DPkg::Lock::Timeout=60 --yes autoremove
+sudo apt --yes autoremove
