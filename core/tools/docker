@@ -7,7 +7,7 @@ echo "Oakeri - Tools - docker"
 echo "======================="
 echo
 
-sudo apt update
+sudo apt -o DPkg::Lock::Timeout=30 update
 
 sudo apt remove --yes \
 	containerd \
@@ -22,7 +22,7 @@ echo \
 	"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
 	$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-sudo apt update
+sudo apt -o DPkg::Lock::Timeout=30 update
 
 sudo apt --yes install \
 	containerd.io \

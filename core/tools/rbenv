@@ -6,7 +6,7 @@ echo "Oakeri - Tools - rbenv"
 echo "======================"
 echo
 
-sudo apt update
+sudo apt -o DPkg::Lock::Timeout=30 update
 
 sudo apt remove --yes \
 	rbenv \

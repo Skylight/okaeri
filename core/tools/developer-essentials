@@ -6,7 +6,7 @@ echo "Oakeri - Tools - developer essentials"
 echo "====================================="
 echo
 
-sudo apt update
+sudo apt -o DPkg::Lock::Timeout=30 update
 
 sudo apt install software-properties-common
 

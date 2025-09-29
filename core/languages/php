@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt update
+sudo apt -o DPkg::Lock::Timeout=30 update
 
 sudo add-apt-repository --yes ppa:ondrej/php
 
