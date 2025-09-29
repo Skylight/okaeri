@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo
+echo
+echo "Oakeri - Starting packagekit"
+echo "============================"
+echo
+
+sudo systemctl unmask packagekit
+sudo systemctl start packagekit

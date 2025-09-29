@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo
+echo
+echo "Oakeri - Stopping packagekit"
+echo "============================"
+echo
+
+sudo systemctl stop packagekit
+sudo systemctl mask packagekit

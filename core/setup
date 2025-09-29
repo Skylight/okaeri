@@ -9,11 +9,13 @@ echo
 echo "Oakeri - Setup"
 echo "=============="
 echo
-echo "You are about to setup okaeri core tools on your system. You will be asked to enter your "
-echo "password multiple times."
+echo "You are about to setup okaeri core tools on your system. You will be asked for your sudo password."
 echo
-echo "The setup process will stop \`packagekit\`. Once setup is complete you should reboot for all"
-echo "the changes to take effect and to restart \`packagekit\`."
+echo
+echo "If setup aborts or fails, call the following script to re-enable packagekit."
+echo
+echo "$OKAERI_PATH/core/scripts/packagekit-start"
+echo
 echo
 echo "Your current machine name is: $OKAERI_HOSTNAME"
 echo
@@ -41,14 +43,7 @@ case "$answer" in
 		;;
 esac
 
-echo
-echo
-echo "Oakeri - Stopping packagekit"
-echo "============================"
-echo
-
-service packagekit stop || true
-sudo service packagekit stop || true
+source "$OKAERI_PATH/core/scripts/packagekit-stop"
 
 sudo apt --yes update
 
@@ -71,6 +66,8 @@ source "$OKAERI_PATH/core/languages/ruby"
 . $OKAERI_INITIALIZE_SCRIPT
 
 sudo apt --yes autoremove
+
+source "$OKAERI_PATH/core/scripts/packagekit-start"
 
 echo
 echo
