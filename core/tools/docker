@@ -31,7 +31,6 @@ sudo apt --yes install \
 	docker-ce-cli \
 	docker-compose-plugin
 
-sudo touch /var/run/docker.sock
 sudo chmod 666 /var/run/docker.sock
 
 sudo apt --yes autoremove
