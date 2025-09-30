@@ -1,0 +1,10 @@
+#!/bin/bash
+
+flatpak install  --assumeyes \
+    org.flameshot.Flameshot \
+    com.github.tchx84.Flatseal \
+    com.google.Chrome \
+    org.mozilla.firefox \
+    com.visualstudio.code
+    
+sudo apt --yes remove firefox

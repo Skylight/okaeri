@@ -55,6 +55,7 @@ source "$OKAERI_PATH/core/config/desktop"
 source "$OKAERI_PATH/core/config/git"
 
 source "$OKAERI_PATH/core/tools/developer-essentials"
+source "$OKAERI_PATH/core/tools/flatpak-desktop-tools"
 source "$OKAERI_PATH/core/tools/docker"
 source "$OKAERI_PATH/core/tools/rbenv"
 source "$OKAERI_PATH/core/tools/rclone"
