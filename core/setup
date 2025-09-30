@@ -62,6 +62,8 @@ source "$OKAERI_PATH/core/tools/sqlpackage"
 
 . $OKAERI_INITIALIZE_SCRIPT
 
+source "$OKAERI_PATH/core/languages/php"
+
 source "$OKAERI_PATH/usr/bin/rbenv-update"
 source "$OKAERI_PATH/core/languages/ruby"
 
