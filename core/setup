@@ -43,6 +43,8 @@ case "$answer" in
 		;;
 esac
 
+. $OKAERI_INITIALIZE_SCRIPT
+
 source "$OKAERI_PATH/core/scripts/packagekit-stop"
 
 sudo apt --yes update
