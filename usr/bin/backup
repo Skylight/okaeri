@@ -7,10 +7,10 @@ require 'optparse'
 require_relative '../lib/backup/backup'
 
 usage = %Q(
-Usage: backup profile destination [options]
+Usage: backup source destination [options]
 
-  profile: the name of the profile to backup
-  destination: the destination path or rclone target to backup to
+  source:\tthe source path to backup
+  destination:\tthe destination path or rclone target to backup to
 
 )
 
@@ -20,6 +20,11 @@ options = {
   debug: false,
   dry_run: false,
   list: false,
+  log_file: nil,
+  log_file_max_backups: 3,
+  log_level: 'notice',
+  my_time_notification: false,
+  profile: 'default',
   watchdog: nil
 }
 
@@ -33,19 +38,24 @@ opt_parser = OptionParser.new do |opts|
 
   opts.on('--debug', TrueClass, "Output the compiled rclone command") { |o| options[:debug] = o }
   opts.on('--dry-run', TrueClass, "Dry Run (Default: false)") { |o| options[:dry_run] = o }
-  opts.on('-l', '--list', TrueClass, "Lists the available profiles") { |o| options[:list] = o }
+  opts.on('--list', TrueClass, "Lists the available profiles") { |o| options[:list] = o }
+  opts.on('--log-file=PATH', String, "Path to a log file") { |o| options[:log_file] = o }
+  opts.on('--log-file-max-backups=NUMBER', Integer, "Number of backup files to keep") { |o| options[:log_file_max_backups] = o }
+  opts.on('--log-level=LEVEL', String, "Log level") { |o| options[:log_level] = o }
+  opts.on('--mytime-notification', TrueClass, "Send a MyTime notification") { |o| options[:my_time_notification] = o }
+  opts.on('-p', '--profile=PROFILE', String, "The backup profile") { |o| options[:profile] = o }
   opts.on('-w', '--watchdog=CODE', String, "The MyTime watchdog code") { |o| options[:watchdog] = o }
 end.parse!(args)
 
 profiles_path = File.join(ENV['OKAERI_PATH'], 'usr', 'etc', 'backup')
 
-@backup = Okaeri::Backup.new(profiles_path, options: options)
-
 if options[:list]
   puts "\nListing profiles\n\n"
 
-  @backup.profiles.each do |profile|
-    puts "  * #{profile}"
+  profiles = Dir.entries(profiles_path).select { |path| File.directory?(File.join(profiles_path, path)) && !path.start_with?('.') && File.readable?(File.join(profiles_path, path, 'profile.yml')) }
+
+  profiles.each do |profile|
+    puts "  #{profile}"
   end
   puts "\n"
 
@@ -57,7 +67,16 @@ if args.size != 2
   exit 1
 end
 
-profile = args[0]
+source = args[0]
 destination = args[1]
 
-@backup.run(profile, destination)
+profile_file = File.join(profiles_path, options[:profile], 'profile.yml')
+
+@backup = Okaeri::Backup.new(source, destination, profile_file, options: options)
+
+if options[:debug]
+  @backup.debug "Compiled command:\n\n  #{@backup.compiled_command}\n\n"
+  exit 0
+end
+
+@backup.run!

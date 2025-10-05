@@ -1,5 +1,5 @@
-backup:
-  source: <%= ENV['HOME'] %>
+profile:
+  command: sync
   filter-from: ./filter-from.txt
   flags:
     - --delete-excluded

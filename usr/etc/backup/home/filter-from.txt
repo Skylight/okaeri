@@ -11,6 +11,7 @@
 - /DockerVolumes/
 - /Downloads/
 - /Insync/
+- /Log/
 - /okaeri/
 - /Personal/
 - /Private/

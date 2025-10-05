@@ -56,6 +56,11 @@ if [ ! -d $OKAERI_DUMP_PATH ]; then
 	touch "$OKAERI_DUMP_PATH/.ignore-sync"
 fi
 
+if [ ! -d $OKAERI_LOG_PATH ]; then
+	mkdir $OKAERI_LOG_PATH
+	touch "$OKAERI_LOG_PATH/.ignore-sync"
+fi
+
 if [ ! -d $OKAERI_TMP_PATH ]; then
 	mkdir $OKAERI_TMP_PATH
 	touch "$OKAERI_TMP_PATH/.ignore-sync"

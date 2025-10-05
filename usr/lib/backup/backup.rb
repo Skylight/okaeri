@@ -5,36 +5,58 @@ require_relative 'notify'
 
 module Okaeri
   class Backup
-    def initialize(profiles_path, options:)
-      raise "Unable to locate profiles path: #{profiles_path}" unless File.directory?(profiles_path)
-      @profiles_path = profiles_path
+
+    attr_reader :source, :destination
+
+    def initialize(source, destination, profile_file, options:)
+      raise "Unable to locate profile: #{profile_file}" unless File.readable?(profile_file)
+
+      @source = source
+      @destination = destination
+      @profile_file = profile_file
       @options = options
 
-      @debug = !!options[:debug]
+      @debug = !!@options[:debug]
+      @watchdog = @options[:watchdog]
+
+      debug
+      debug "source:\t\t#{source}"
+      debug "destination:\t#{destination}"
+      debug "profile_file:\t#{profile_file}"
+      debug
+      debug "options:\t#{options.inspect}"
+      debug
     end
 
-    def profiles
-      @profiles ||= Dir.entries(@profiles_path).select { |path| File.directory?(File.join(@profiles_path, path)) && !path.start_with?('.') }
+    def compiled_command
+      @compiled_command ||= RcloneBuilder.new(@profile_file, source, destination, options: @options).compiled_command
     end
 
-    def run(profile, destination)
-      debug "Running `#{profile}` to `#{destination}`"
-      profile_path = File.join(@profiles_path, profile, 'profile.yml')
-      debug "Using profile from: #{profile_path}"
+    def run!
+      run = "run-#{Time.now.to_i}"
 
-      rclone = RcloneBuilder.new(profile_path, destination, options: @options)
-      debug "Compiled command:\n\n  #{rclone.compiled_command}\n\n"
+      begin
+        Okaeri::Notify::Watchdog.deliver!(@watchdog, run, 'begin') if watchdog?
 
-      return if debug?
+        raise "Something went wrong with rclone `#{$?.exitstatus}`" unless system(self.compiled_command)
 
-      
+        Okaeri::Notify::Watchdog.deliver!(@watchdog, run, 'end') if watchdog?
+        exit 0
+      rescue => exception
+        Okaeri::Notify::Watchdog.deliver!(@watchdog, run, 'error', exception.to_s) if watchdog?
+        exit 1
+      end
     end
 
     def debug?
       @debug
     end
 
-    def debug(messsage)
+    def watchdog?
+      !!@watchdog
+    end
+
+    def debug(messsage = '')
       return unless debug?
 
       puts messsage

@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'backup/rclone_builder'
-require_relative 'notify'
-
 module Okaeri
   module Notify
     class Watchdog
