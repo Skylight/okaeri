@@ -1,5 +1,0 @@
-profile:
-  command: sync
-  flags:
-    - --checksum
-    - --skip-links

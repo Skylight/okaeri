@@ -1,16 +1,10 @@
-```bash
-00 22 * * * ~/okaeri/usr/bin/backup-home /media/smath/BackupSlingshot/backup/BASE20251005/home/smath 04b68fbe80201bbb6dfa3ad5e6027d47d761a1b7 > /tmp/backup-home-cron.log 2>&1
-30 22 * * * ~/bin/backup-encrypted /media/smath/Encrypted /media/smath/BackupSlingshot/backup/BASE20251005/Encrypted 8fc6d82426d46622925d07278b293eb06d2ac693 > /tmp/backup-encrypted-cron.log 2>&1
-```
-
-```bash
 #!/bin/bash
 
 source "$HOME/okaeri/config/boot"
 
-source=$1
-destination=$2
-watchdog=$3
+source=$HOME
+destination=$1
+watchdog=$2
 
 echo "[backup] source:      $source"
 echo "[backup] destination: $destination"
@@ -25,12 +19,10 @@ echo "[backup] run:         $run"
 echo "[backup] start"
 
 /usr/bin/rclone sync $source $destination \
-  --exclude /DockerVolumes/ \
-  --exclude /Personal/ \
-  --exclude /lost+found/ \
-  --exclude /Tmp/ \
-  --exclude /tmp/ \
+  --filter-from $OKAERI_PATH/usr/etc/backup/home/filter-from.txt \
+  --exclude-if-present .ignore-sync \
   --log-level info \
+  --delete-excluded \
   --checksum \
   --skip-links
 
@@ -45,4 +37,3 @@ else
 fi
 
 echo "[backup] done"
-```

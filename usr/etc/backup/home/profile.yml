@@ -1,8 +1,0 @@
-profile:
-  command: sync
-  filter-from: ./filter-from.txt
-  flags:
-    - --delete-excluded
-    - --skip-links
-  exclude-if-present:
-    - .ignore-sync
