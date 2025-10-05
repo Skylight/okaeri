@@ -47,7 +47,7 @@ opt_parser = OptionParser.new do |opts|
   opts.on('-w', '--watchdog=CODE', String, "The MyTime watchdog code") { |o| options[:watchdog] = o }
 end.parse!(args)
 
-profiles_path = File.join(ENV['OKAERI_PATH'], 'usr', 'etc', 'backup')
+profiles_path = File.realpath(File.join(__dir__, '..', 'etc', 'backup'))
 
 if options[:list]
   puts "\nListing profiles\n\n"
