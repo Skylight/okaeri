@@ -1,18 +1,5 @@
 # Setting up a machine for development
 
-## Packages from Pop!_Shop
-
-From within `Pop!_Shop`, remove the following packages;
-
-* `firefox` (default debian distribution)
-
- install the following packages (where possible, choose `flatpak` distribution);
-
-* `flatseal`
-* `chrome`
-* `firefox`
-* `vs code`
-
 ## JetBrains ToolBox
 
 Based on [Toolbox App installation](https://www.jetbrains.com/help/toolbox-app/toolbox-app-silent-installation.html#tba_installation).

@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/bundler'
+
+require 'optparse'
+
+options = {
+  watchdog: nil
+}
+
+puts ARGV.inspect
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: backup [options]"
+
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit 0
+  end
+
+  opts.on('-w', '--watchdog=CODE', String, "The MyTime watchdog code") { |o| options[:watchdog] = o }
+end.parse!
+
+puts options.inspect
+
+
+
+# backup profile destination --flags
+

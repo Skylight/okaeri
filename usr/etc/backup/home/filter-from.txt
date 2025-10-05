@@ -1,0 +1,43 @@
+# Ignore files/folders from root folder but include ./ssh/config
+
++ /.ssh/config
+
+- /.{{.*}}/
+- /Android/
+- /build/
+- /Build/
+- /Data/
+- /DataGripProjects/
+- /DockerVolumes/
+- /Downloads/
+- /Insync/
+- /okaeri/
+- /Personal/
+- /Private/
+- /Tmp/
+- /Tools/
+- /VirtualMachines/
+
+- /.bash_history
+- .DS_Store
+
+# Ignore files/folders matching
+- .pub-cache/
+- .git/
+- log/
+- node_modules/
+- public/upload/
+- public/uploads/
+- tmp/
+
+- Work/**/vendor/
+- Work/**/var/cache/
+- *.log
+- .idea/
+
+# Ignore specific projects completely
+- Work/CatSolutions/jobsolutions/
+- Work/CatSolutions/profitplus/
+- Work/PinkMinds/*.sql
+- Work/ProfilWeb/
+- Work/Telinco/
