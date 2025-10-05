@@ -1,0 +1,8 @@
+backup:
+  source: <%= ENV['HOME'] %>
+  filter-from: ./filter-from.txt
+  flags:
+    - --delete-excluded
+    - --skip-links
+  exclude-if-present:
+    - .ignore-sync

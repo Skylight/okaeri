@@ -4,26 +4,60 @@ require_relative '../lib/bundler'
 
 require 'optparse'
 
+require_relative '../lib/backup/backup'
+
+usage = %Q(
+Usage: backup profile destination [options]
+
+  profile: the name of the profile to backup
+  destination: the destination path or rclone target to backup to
+
+)
+
+args = ARGV
+
 options = {
+  debug: false,
+  dry_run: false,
+  list: false,
   watchdog: nil
 }
 
-puts ARGV.inspect
-
-OptionParser.new do |opts|
-  opts.banner = "Usage: backup [options]"
+opt_parser = OptionParser.new do |opts|
+  opts.banner = usage
 
   opts.on("-h", "--help", "Prints this help") do
     puts opts
     exit 0
   end
 
+  opts.on('--debug', TrueClass, "Output the compiled rclone command") { |o| options[:debug] = o }
+  opts.on('--dry-run', TrueClass, "Dry Run (Default: false)") { |o| options[:dry_run] = o }
+  opts.on('-l', '--list', TrueClass, "Lists the available profiles") { |o| options[:list] = o }
   opts.on('-w', '--watchdog=CODE', String, "The MyTime watchdog code") { |o| options[:watchdog] = o }
-end.parse!
+end.parse!(args)
 
-puts options.inspect
+profiles_path = File.join(ENV['OKAERI_PATH'], 'usr', 'etc', 'backup')
 
+@backup = Okaeri::Backup.new(profiles_path, options: options)
 
+if options[:list]
+  puts "\nListing profiles\n\n"
 
-# backup profile destination --flags
+  @backup.profiles.each do |profile|
+    puts "  * #{profile}"
+  end
+  puts "\n"
 
+  exit 0
+end
+
+if args.size != 2
+  puts usage
+  exit 1
+end
+
+profile = args[0]
+destination = args[1]
+
+@backup.run(profile, destination)
