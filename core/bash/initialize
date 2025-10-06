@@ -18,7 +18,7 @@ export OKAERI_TMP_PATH
 export OKAERI_TOOLS_PATH
 export OKAERI_WORK_PATH
 
-export PATH="$OKAERI_PATH/usr/bin:$PATH"
+export PATH="$OKAERI_PATH/usr/bin:./bin:$PATH"
 
 echo "Okaeri $OKAERI_VERSION"
 
