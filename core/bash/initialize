@@ -39,7 +39,7 @@ if [ -d "$OKAERI_TOOLS_PATH/sqlpackage" ]; then
 	export PATH="$OKAERI_TOOLS_PATH/sqlpackage:$PATH"
 fi
 
-# Working Directories
+## Working Directories
 
 if [ ! -d $OKAERI_DOCKER_VOLUMES_PATH ]; then
 	mkdir $OKAERI_DOCKER_VOLUMES_PATH
@@ -74,3 +74,16 @@ fi
 if [ ! -d $OKAERI_WORK_PATH ]; then
 	mkdir $OKAERI_WORK_PATH
 fi
+
+## Prompt
+
+function parse_git_branch () {
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+RED="\[\033[0;31m\]"
+YELLOW="\[\033[0;33m\]"
+GREEN="\[\033[0;32m\]"
+NO_COLOUR="\[\033[0m\]"
+
+PS1="$YELLOW\h$NO_COLOUR \W$GREEN\$(parse_git_branch)$NO_COLOUR \$ "
