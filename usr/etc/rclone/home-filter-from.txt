@@ -3,6 +3,7 @@
 - /.android/
 - /Android/
 - /.bash_history
+- /.config/
 - /.bundle/
 - /.dartServer/
 - /.cache/
