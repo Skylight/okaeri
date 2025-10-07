@@ -1,0 +1,33 @@
+# Ignore files/folders from home folder
+
+- /.android/
+- /Android/
+- /.bash_history
+- /.bundle/
+- /.cache/
+- /.ebcli-virtual-env/
+- /DockerVolumes/
+- /Downloads/
+- /.local/
+- /opkaeri/
+- /.npm/
+- /.nvm/
+- /lost+found/
+- /Personal/
+- /Private/
+- /.rbenv/
+- /Tmp/
+- /.var/
+- /VirtualMachines/
+- /.vscode/
+
+# Ignore files/folders that match
+
+- .DS_Store
+- .pub-cache/
+- .git/
+- .idea/
+- log/
+- node_modules/
+- *.log
+- tmp/

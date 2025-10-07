@@ -1,16 +1,13 @@
-```bash
-00 22 * * * ~/okaeri/usr/bin/backup-home /media/smath/BackupSlingshot/backup/BASE20251005/home/smath 04b68fbe80201bbb6dfa3ad5e6027d47d761a1b7 > /tmp/backup-home-cron.log 2>&1
-30 22 * * * ~/bin/backup-encrypted /media/smath/Encrypted /media/smath/BackupSlingshot/backup/BASE20251005/Encrypted 8fc6d82426d46622925d07278b293eb06d2ac693 > /tmp/backup-encrypted-cron.log 2>&1
-```
+## Create a backup from your home drive
 
 ```bash
 #!/bin/bash
 
 source "$HOME/okaeri/config/boot"
 
-source=$1
-destination=$2
-watchdog=$3
+source=<home>
+destination=<destination>
+watchdog=<watchdog>
 
 echo "[backup] source:      $source"
 echo "[backup] destination: $destination"
@@ -25,11 +22,8 @@ echo "[backup] run:         $run"
 echo "[backup] start"
 
 /usr/bin/rclone sync $source $destination \
-  --exclude /DockerVolumes/ \
-  --exclude /Personal/ \
-  --exclude /lost+found/ \
-  --exclude /Tmp/ \
-  --exclude /tmp/ \
+  --filter-from $OKAERI_PATH/usr/etc/rclone/home-filter-from.txt \
+  --delete-excluded \
   --log-level info \
   --checksum \
   --skip-links
@@ -45,4 +39,56 @@ else
 fi
 
 echo "[backup] done"
+```
+
+## Create a backup from your backup drive to diskstation
+
+```bash
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+source=/media/smath/BackupSmatPopOs/backup/BASE20251006
+destination=diskstation:Encrypted/Machines/slider/BASE20251006
+watchdog=212cbb674003b45c4ec4651b6c53313db877776f
+
+echo "[backup] source:      $source"
+echo "[backup] destination: $destination"
+echo "[backup] watchdog:    $watchdog"
+
+run="run-$(date +%s)"
+
+echo "[backup] run:         $run"
+
+/usr/bin/curl -X POST "https://mytime.skylight.be/api/radar/watchdog/$watchdog/$run/begin"
+
+echo "[backup] start"
+
+/usr/bin/rclone sync $source $destination \
+  --log-level info \
+  --checksum \
+  --skip-links
+
+if [ $? -ne 0 ]; then
+  echo "[backup] end - error"
+
+  /usr/bin/curl -X POST "https://mytime.skylight.be/api/radar/watchdog/$watchdog/$run/error"
+else
+  echo "[backup] end - success"
+
+  /usr/bin/curl -X POST "https://mytime.skylight.be/api/radar/watchdog/$watchdog/$run/end"
+fi
+
+echo "[backup] done"
+```
+
+## Create a backup all script
+
+```bash
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+source "$HOME/bin/backup-home-to-backup"
+source "$HOME/bin/backup-backup-to-diskstation"
 ```
