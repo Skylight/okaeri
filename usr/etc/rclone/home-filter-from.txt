@@ -4,10 +4,12 @@
 - /Android/
 - /.bash_history
 - /.bundle/
+- /.dartServer/
 - /.cache/
 - /.ebcli-virtual-env/
 - /DockerVolumes/
 - /Downloads/
+- /.gradle/
 - /.local/
 - /opkaeri/
 - /.npm/
@@ -15,7 +17,9 @@
 - /lost+found/
 - /Personal/
 - /Private/
+- /.pub-cache/
 - /.rbenv/
+- /snap/
 - /Tmp/
 - /.var/
 - /VirtualMachines/
