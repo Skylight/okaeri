@@ -22,6 +22,9 @@ sudo apt --yes install \
 	gnupg \
 	default-jre \
 	git \
+	imagemagick \
+	libmagickcore-dev \
+	libmagickwand-dev \
 	jq \
 	libffi-dev \
 	libgdbm-dev \
@@ -33,6 +36,7 @@ sudo apt --yes install \
 	libyaml-dev \
 	lsb-release \
 	openssh-server \
+	pkg-config \
 	pv \
 	tree \
 	zlib1g-dev
