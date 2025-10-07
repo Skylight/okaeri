@@ -52,8 +52,8 @@ echo "[backup] done"
 
 source "$HOME/okaeri/config/boot"
 
-source=/media/smath/BackupSmatPopOs/backup/BASE20251006
-destination=diskstation:Encrypted/Machines/slider/BASE20251006
+source=/media/smath/BackupSmatPopOs/backup
+destination=diskstation:Encrypted/Machines/slider/backup
 watchdog=212cbb674003b45c4ec4651b6c53313db877776f
 
 echo "[backup] source:      $source"
