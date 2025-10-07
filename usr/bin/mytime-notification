@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+require 'httparty'
+require 'optparse'
+require 'json'
+
+options = {
+  channel: 'event',
+  icon: 'fa-info green',
+  name: 'task',
+  description: nil,
+  user: 'system'
+}
+
+args = ARGV
+
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: mytime-watchdog [identifier] [run] [event] [options]"
+
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit
+  end
+
+  opts.on('-c', '--channel=CHANNEL', String, "The channel (default `event`)") { |o| options[:channel] = o }
+  opts.on('-i', '--icon=ICON', String, "The icon (default `fa-info green`)") { |o| options[:icon] = o }
+  opts.on('-n', '--name=NAME', String, "A name for the notification (default `task`)") { |o| options[:name] = o }
+  opts.on('-d', '--description=DESCRIPTION', String, "An optional description to send with the notification") { |o| options[:description] = o }
+  opts.on('-u', '--user=USER', String, "A user (default `system`)") { |o| options[:user] = o }
+end
+
+parser.parse!(args)
+
+def send_notification(body)
+  response = HTTParty.post('https://mytime.skylight.be/api/status/json', headers: { 'Content-Type' => 'application/json' }, body: body.to_json )
+
+  response.code == 200
+end
+
+exit 1 if send_notification(options)
