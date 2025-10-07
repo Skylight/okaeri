@@ -6,12 +6,15 @@
 - /.bundle/
 - /.dartServer/
 - /.cache/
+- /.dotnet/
 - /.ebcli-virtual-env/
 - /DockerVolumes/
 - /Downloads/
 - /.gradle/
+- /.java/
 - /.local/
 - /okaeri/
+- /.mozilla/
 - /.npm/
 - /.nvm/
 - /lost+found/
