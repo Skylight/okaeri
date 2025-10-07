@@ -20,6 +20,10 @@ export OKAERI_WORK_PATH
 
 export PATH="$OKAERI_PATH/usr/bin:./bin:$PATH"
 
+if [ -d "$HOME/.ebcli-virtual-env/executables" ]; then
+  export PATH="$HOME/.ebcli-virtual-env/executables:$PATH"
+fi
+
 echo "Okaeri $OKAERI_VERSION"
 
 # VS Code
@@ -30,55 +34,55 @@ alias bake="rake --rakefile $OKAERI_PATH/usr/lib/projects/setup/Rakefile"
 # RB Env
 
 if [ -d "$HOME/.rbenv" ]; then
-	export PATH="$HOME/.rbenv/bin:$PATH"
+  export PATH="$HOME/.rbenv/bin:$PATH"
 fi
 
 ## SQLPackage
 
 if [ -d "$OKAERI_TOOLS_PATH/sqlpackage" ]; then
-	export PATH="$OKAERI_TOOLS_PATH/sqlpackage:$PATH"
+  export PATH="$OKAERI_TOOLS_PATH/sqlpackage:$PATH"
 fi
 
 ## Working Directories
 
 if [ ! -d $OKAERI_DOCKER_VOLUMES_PATH ]; then
-	mkdir $OKAERI_DOCKER_VOLUMES_PATH
-	touch "$OKAERI_DOCKER_VOLUMES_PATH/.ignore-sync"
+  mkdir $OKAERI_DOCKER_VOLUMES_PATH
+  touch "$OKAERI_DOCKER_VOLUMES_PATH/.ignore-sync"
 fi
 
 if [ ! -d $OKAERI_BUILD_PATH ]; then
-	mkdir $OKAERI_BUILD_PATH
-	touch "$OKAERI_BUILD_PATH/.ignore-sync"
+  mkdir $OKAERI_BUILD_PATH
+  touch "$OKAERI_BUILD_PATH/.ignore-sync"
 fi
 
 if [ ! -d $OKAERI_DUMP_PATH ]; then
-	mkdir $OKAERI_DUMP_PATH
-	touch "$OKAERI_DUMP_PATH/.ignore-sync"
+  mkdir $OKAERI_DUMP_PATH
+  touch "$OKAERI_DUMP_PATH/.ignore-sync"
 fi
 
 if [ ! -d $OKAERI_LOG_PATH ]; then
-	mkdir $OKAERI_LOG_PATH
-	touch "$OKAERI_LOG_PATH/.ignore-sync"
+  mkdir $OKAERI_LOG_PATH
+  touch "$OKAERI_LOG_PATH/.ignore-sync"
 fi
 
 if [ ! -d $OKAERI_TMP_PATH ]; then
-	mkdir $OKAERI_TMP_PATH
-	touch "$OKAERI_TMP_PATH/.ignore-sync"
+  mkdir $OKAERI_TMP_PATH
+  touch "$OKAERI_TMP_PATH/.ignore-sync"
 fi
 
 if [ ! -d $OKAERI_TOOLS_PATH ]; then
-	mkdir $OKAERI_TOOLS_PATH
-	touch "$OKAERI_TOOLS_PATH/.ignore-sync"
+  mkdir $OKAERI_TOOLS_PATH
+  touch "$OKAERI_TOOLS_PATH/.ignore-sync"
 fi
 
 if [ ! -d $OKAERI_WORK_PATH ]; then
-	mkdir $OKAERI_WORK_PATH
+  mkdir $OKAERI_WORK_PATH
 fi
 
 ## Prompt
 
 function parse_git_branch () {
-	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
 RED="\[\033[0;31m\]"

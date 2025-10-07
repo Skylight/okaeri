@@ -1,0 +1,24 @@
+
+#!/bin/bash
+
+echo
+echo
+echo "Oakeri - Tools - eb"
+echo "==================="
+echo
+
+eb="$(command -v eb | head -1)"
+
+if [ ! -n "$eb" ]; then
+	cd $OKAERI_BUILD_PATH
+
+	git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
+	python ./aws-elastic-beanstalk-cli-setup/scripts/ebcli_installer.py
+else
+	echo
+	echo
+	echo "eb already installed"
+	echo
+	echo
+fi
+
