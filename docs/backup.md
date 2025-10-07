@@ -1,4 +1,8 @@
-## Create a backup from your home drive
+# Backup
+
+## Create individual backup step script
+
+### Create a backup from your home drive
 
 ```bash
 #!/bin/bash
@@ -41,7 +45,7 @@ fi
 echo "[backup] done"
 ```
 
-## Create a backup from your backup drive to diskstation
+### Create a backup from your backup drive to diskstation
 
 ```bash
 #!/bin/bash
@@ -82,7 +86,7 @@ fi
 echo "[backup] done"
 ```
 
-## Create a backup all script
+### Create a backup all script
 
 ```bash
 #!/bin/bash
@@ -91,4 +95,11 @@ source "$HOME/okaeri/config/boot"
 
 source "$HOME/bin/backup-home-to-backup"
 source "$HOME/bin/backup-backup-to-diskstation"
+```
+
+## Cron
+
+```bash
+10 20 * * * ~/bin/backup-home-to-backup > $HOME/Log/backup-home-to-backup-cron.log 2>&1
+10 2 * * * ~/bin/backup-backup-to-diskstation > $HOME/Log/backup-backup-to-diskstation-cron.log 2>&1
 ```
