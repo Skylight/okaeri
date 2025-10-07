@@ -49,8 +49,8 @@ namespace :az do
       :build_docker_images
     ] do; end
 
-    desc "Dump databases"
-    task :dump, [:name, :blah] do |t, args|
+    desc "Dump database(s)"
+    task :dump, [:name] do |t, args|
       dump_path = File.join(ENV['OKAERI_DUMP_PATH'], 'AstraZeneca', 'az.pegasus', 'latest')
       Okaeri::Disk.ensure_path!(dump_path)
 
@@ -89,6 +89,58 @@ namespace :az do
         puts
 
         command = %Q(sqlpackage /Action:Extract /SourceServerName:"localhost" /SourceDatabaseName:"#{database}" /TargetFile:"#{dump_file}" /SourceTrustServerCertificate:True /SourceUser:"#{username}" /SourcePassword:"#{password}" /p:IgnoreUserLoginMappings=True /p:ExtractAllTableData=True)
+        puts
+        puts "\t#{command}"
+        puts
+        raise "Something went wrong `#{$?.exitstatus}`" unless system(command)
+      end
+    end
+
+    desc "Restore database(s)"
+    task :restore, [:name] do |t, args|
+      load_path = File.join(ENV['OKAERI_DUMP_PATH'], 'AstraZeneca', 'az.pegasus', 'latest')
+      Okaeri::Disk.ensure_path!(load_path)
+
+      config_file = File.join(PROJECT_PATH, 'bootstrap', 'database.yml')
+      raise "Unable to locate config file: #{config_file}" unless File.readable?(config_file)
+
+      config = YAML.load_file(config_file, aliases: true).reject{|key| key == 'default'}
+
+
+      if args[:name].nil?
+        puts "\nChoose on of these:\n\n"
+
+        config.keys.each do |name|
+          puts "  #{name}"
+        end
+        puts "\n  or\n\n"
+        puts "  *\n\n"
+        puts "\tbake az:pegasus:restore[*]\n\n"
+        exit 0
+      end
+
+      config.each do |name, settings|
+        next if args[:name] != '*' && name != args[:name]
+
+        adapter = settings['adapter']
+        database = settings['database']
+        username = settings['username']
+        password = settings['password']
+
+        raise "adapter `#{adapter}` is not supported" unless adapter == 'mssql'
+
+        load_file = File.join(load_path, "#{database}.dacpac")
+
+        raise "Unable to locate load file: #{load_file}" unless File.readable?(load_file)
+
+        puts
+        puts "Restoring `#{load_file}` to `#{database}`"
+        puts
+
+        command = %Q(sqlpackage /Action:Publish /TargetServerName:"localhost" /TargetDatabaseName:"#{database}" /SourceFile:"#{load_file}" /TargetTrustServerCertificate:True /TargetUser:"#{username}" /TargetPassword:"#{password}" /p:CreateNewDatabase=True /p:ExcludeObjectTypes="Users;LinkedServerLogins;Logins;RoleMembership")
+        puts
+        puts "\t#{command}"
+        puts
         raise "Something went wrong `#{$?.exitstatus}`" unless system(command)
       end
     end
