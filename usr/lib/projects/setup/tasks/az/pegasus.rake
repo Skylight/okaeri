@@ -50,17 +50,30 @@ namespace :az do
     ] do; end
 
     desc "Dump databases"
-    task :dump do
+    task :dump, [:name, :blah] do |t, args|
       dump_path = File.join(ENV['OKAERI_DUMP_PATH'], 'AstraZeneca', 'az.pegasus', 'latest')
       Okaeri::Disk.ensure_path!(dump_path)
 
       config_file = File.join(PROJECT_PATH, 'bootstrap', 'database.yml')
       raise "Unable to locate config file: #{config_file}" unless File.readable?(config_file)
 
-      config = YAML.load_file(config_file, aliases: true)
+      config = YAML.load_file(config_file, aliases: true).reject{|key| key == 'default'}
+
+
+      if args[:name].nil?
+        puts "\nChoose on of these:\n\n"
+
+        config.keys.each do |name|
+          puts "  #{name}"
+        end
+        puts "\n  or\n\n"
+        puts "  *\n\n"
+        puts "\tbake az:pegasus:dump[*]\n\n"
+        exit 0
+      end
 
       config.each do |name, settings|
-        next if name == 'default'
+        next if args[:name] != '*' && name != args[:name]
 
         adapter = settings['adapter']
         database = settings['database']
