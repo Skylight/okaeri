@@ -49,6 +49,37 @@ namespace :az do
       :build_docker_images
     ] do; end
 
+    desc "Dump databases"
+    task :dump do
+      dump_path = File.join(ENV['OKAERI_DUMP_PATH'], 'AstraZeneca', 'az.pegasus', 'latest')
+      Okaeri::Disk.ensure_path!(dump_path)
+
+      config_file = File.join(PROJECT_PATH, 'bootstrap', 'database.yml')
+      raise "Unable to locate config file: #{config_file}" unless File.readable?(config_file)
+
+      config = YAML.load_file(config_file, aliases: true)
+
+      config.each do |name, settings|
+        next if name == 'default'
+
+        adapter = settings['adapter']
+        database = settings['database']
+        username = settings['username']
+        password = settings['password']
+
+        raise "adapter `#{adapter}` is not supported" unless adapter == 'mssql'
+
+        dump_file = File.join(dump_path, "#{database}.dacpac")
+
+        puts
+        puts "Dumping `#{database}` to `#{dump_file}`"
+        puts
+
+        command = %Q(sqlpackage /Action:Extract /SourceServerName:"localhost" /SourceDatabaseName:"#{database}" /TargetFile:"#{dump_file}" /SourceTrustServerCertificate:True /SourceUser:"#{username}" /SourcePassword:"#{password}" /p:IgnoreUserLoginMappings=True /p:ExtractAllTableData=True)
+        raise "Something went wrong `#{$?.exitstatus}`" unless system(command)
+      end
+    end
+
   end
 
 end

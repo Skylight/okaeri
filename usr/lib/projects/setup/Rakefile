@@ -1,3 +1,5 @@
+require 'yaml'
+
 Dir.glob(File.join(__dir__, 'helpers', '**', '*.rb')).each { |r| require r }
 Dir.glob(File.join(__dir__, 'tasks', '**', '*.rake')).each { |r| import r }
 
