@@ -9,9 +9,9 @@
 
 source "$HOME/okaeri/config/boot"
 
-source=<home>
-destination=<destination>
-watchdog=<watchdog>
+source=/home/smath
+destination=/media/smath/BackupSmatPopOs/backup/BASE20251006/home/smath
+watchdog=<token>
 
 echo "[backup] source:      $source"
 echo "[backup] destination: $destination"
@@ -21,7 +21,7 @@ run="run-$(date +%s)"
 
 echo "[backup] run:         $run"
 
-/usr/bin/curl -X POST "https://mytime.skylight.be/api/radar/watchdog/$watchdog/$run/begin"
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run begin
 
 echo "[backup] start"
 
@@ -35,11 +35,13 @@ echo "[backup] start"
 if [ $? -ne 0 ]; then
   echo "[backup] end - error"
 
-  /usr/bin/curl -X POST "https://mytime.skylight.be/api/radar/watchdog/$watchdog/$run/error"
+  $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run error --message "Backup Failed ($?)"
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o red" --name "[slider] Home" --description "Backup Failed ($?)" --user backup
 else
   echo "[backup] end - success"
 
-  /usr/bin/curl -X POST "https://mytime.skylight.be/api/radar/watchdog/$watchdog/$run/end"
+  $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run end
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[slider] Home" --description "Backup Complete" --user backup
 fi
 
 echo "[backup] done"
@@ -54,7 +56,7 @@ source "$HOME/okaeri/config/boot"
 
 source=/media/smath/BackupSmatPopOs/backup
 destination=diskstation:Encrypted/Machines/slider/backup
-watchdog=212cbb674003b45c4ec4651b6c53313db877776f
+watchdog=<token>
 
 echo "[backup] source:      $source"
 echo "[backup] destination: $destination"
@@ -64,7 +66,7 @@ run="run-$(date +%s)"
 
 echo "[backup] run:         $run"
 
-/usr/bin/curl -X POST "https://mytime.skylight.be/api/radar/watchdog/$watchdog/$run/begin"
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run begin
 
 echo "[backup] start"
 
@@ -76,11 +78,13 @@ echo "[backup] start"
 if [ $? -ne 0 ]; then
   echo "[backup] end - error"
 
-  /usr/bin/curl -X POST "https://mytime.skylight.be/api/radar/watchdog/$watchdog/$run/error"
+  $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run error --message "Backup Failed ($?)"
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o red" --name "[slider] Diskstation" --description "Backup Failed ($?)" --user backup
 else
   echo "[backup] end - success"
 
-  /usr/bin/curl -X POST "https://mytime.skylight.be/api/radar/watchdog/$watchdog/$run/end"
+  $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run end
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[slider] Diskstation" --description "Backup Complete" --user backup
 fi
 
 echo "[backup] done"
