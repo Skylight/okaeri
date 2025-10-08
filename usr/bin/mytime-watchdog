@@ -2,7 +2,6 @@
 
 require 'httparty'
 require 'optparse'
-require 'json'
 
 options = {
   message: nil

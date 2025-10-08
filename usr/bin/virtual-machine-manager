@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+
+class VirtualMachineManager
+
+  def initialize(virtual_machine)
+    @virtual_machine = virtual_machine
+  end
+
+  def status
+    response = `/usr/bin/virsh list --all`
+
+    raise "Unexepect result for vm_status `#{$?.exitstatus}`" if $?.exitstatus != 0
+
+    response.split("\n").each do |line|
+      if matches = line.match(/#{@virtual_machine}\s+(.+)\Z/)
+        return matches[1]
+      end
+    end
+
+    return 'unknown'
+  end
+
+  def shutdown
+    `/usr/bin/virsh shutdown #{@virtual_machine}`
+  end
+
+  def start
+    `/usr/bin/virsh start #{@virtual_machine}`
+  end
+end
+
+  #   limit = 180
+  #   while (limit > 0) && vm_status(options[:stop_vm]) == 'running'
+  #     sleep 1
+  #     limit -= 1
+  #   end
+
+  #   send_watchdog(options[:watchdog], run, 'warning', "Stop VM limit reached, unable to stop VM") if limit <= 0
+  #   raise "Stop VM limit reached, unable to stop VM" if limit <= 0
+  # end
+
+
+# def vm_shutdown(vm)
+#   `/usr/bin/virsh shutdown #{vm}`
+# end
+
+# def vm_start(vm)
+#   `/usr/bin/virsh start #{vm}`
+# end
+
+# def vm_status(vm)
+#   response = `/usr/bin/virsh list --all`
+#   raise "Unexepect result for vm_status `#{$?.exitstatus}`" if $?.exitstatus != 0
+
+#   response.split("\n").each do |line|
+#     if matches = line.match(/#{vm}\s+(.+)\Z/)
+#       return matches[1]
+#     end
+#   end
+
+#   return 'unknown'
+# end
+
+
+# puts "OK"
