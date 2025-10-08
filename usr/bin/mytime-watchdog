@@ -2,4 +2,4 @@
 
 source "$HOME/okaeri/config/boot"
 
-~/.rbenv/bin/rbenv exec ruby $OKAERI_PATH/usr/lib/mytime/watchdog.rb "$@"
+$HOME/.rbenv/bin/rbenv exec ruby $OKAERI_PATH/usr/lib/mytime/watchdog.rb "$@"
