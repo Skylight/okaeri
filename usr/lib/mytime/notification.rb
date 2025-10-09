@@ -32,8 +32,6 @@ parser.parse!(args)
 def send_notification(body)
   response = HTTParty.post('https://mytime.skylight.be/api/status/json', headers: { 'Content-Type' => 'application/json' }, body: body.to_json )
 
-  puts response.code
-
   response.code == 200
 end
 
