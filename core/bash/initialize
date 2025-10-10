@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source "$HOME/okaeri/config/boot"
+source "$OKAERI_PATHS_SCRIPT"
 
 # Exports
 
@@ -10,6 +11,7 @@ export OKAERI_VERSION
 export OKAERI_HOSTNAME
 
 export OKAERI_INITIALIZE_SCRIPT
+export OKAERI_PATHS_SCRIPT
 
 export OKAERI_DOCKER_VOLUMES_PATH
 export OKAERI_BUILD_PATH
@@ -18,30 +20,12 @@ export OKAERI_TMP_PATH
 export OKAERI_TOOLS_PATH
 export OKAERI_WORK_PATH
 
-export PATH="$OKAERI_PATH/usr/bin:./bin:$PATH"
-
-if [ -d "$HOME/.ebcli-virtual-env/executables" ]; then
-  export PATH="$HOME/.ebcli-virtual-env/executables:$PATH"
-fi
-
 echo "Okaeri $OKAERI_VERSION"
 
 # VS Code
 
 alias code="flatpak run com.visualstudio.code &>/dev/null"
 alias bake="rake --rakefile $OKAERI_PATH/usr/lib/projects/setup/Rakefile"
-
-# RB Env
-
-if [ -d "$HOME/.rbenv" ]; then
-  export PATH="$HOME/.rbenv/bin:$PATH"
-fi
-
-## SQLPackage
-
-if [ -d "$OKAERI_TOOLS_PATH/sqlpackage" ]; then
-  export PATH="$OKAERI_TOOLS_PATH/sqlpackage:$PATH"
-fi
 
 ## Working Directories
 

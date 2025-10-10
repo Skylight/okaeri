@@ -3,6 +3,8 @@ require 'yaml'
 Dir.glob(File.join(__dir__, 'helpers', '**', '*.rb')).each { |r| require r }
 Dir.glob(File.join(__dir__, 'tasks', '**', '*.rake')).each { |r| import r }
 
+puts ENV["PATH"]
+
 desc "Describes this tool"
 task :description do
   puts "Use `bake` to setup and maintain your projects."

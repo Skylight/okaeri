@@ -41,12 +41,21 @@ namespace :az do
       end
     end
 
+    desc "Install Node & Packages (for asset building support)"
+    task :install_node_and_packages do
+      Dir.chdir(PROJECT_ROOT_PATH) do
+        `nvm install`
+        `npm install`
+      end
+    end
+
     desc "Setup project"
     task setup: [
       'core:ensure_default_work_path_structure',
       :prepare_docker_volumes_paths,
       :checkout_project,
-      :build_docker_images
+      :build_docker_images,
+      :install_node_and_packages
     ] do; end
 
     desc "Dump database(s)"

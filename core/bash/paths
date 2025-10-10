@@ -1,0 +1,36 @@
+#!/bin/bash
+
+export PATH="$OKAERI_PATH/usr/bin:./bin:$PATH"
+
+# eb - AWS Elastic Beanstalk command line tool
+
+if [ -d "$HOME/.ebcli-virtual-env/executables" ]; then
+  export PATH="$HOME/.ebcli-virtual-env/executables:$PATH"
+fi
+
+# java
+
+if [ -d "/usr/lib/jvm/java-8-openjdk-amd64" ]; then
+  export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+  export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
+# nvm
+
+if [ -d "$HOME/.nvm" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
+# rbenv
+
+if [ -d "$HOME/.rbenv" ]; then
+  eval "$($HOME/.rbenv/bin/rbenv init - --no-rehash bash)"
+fi
+
+## SQLPackage
+
+if [ -d "$OKAERI_TOOLS_PATH/sqlpackage" ]; then
+  export PATH="$OKAERI_TOOLS_PATH/sqlpackage:$PATH"
+fi
