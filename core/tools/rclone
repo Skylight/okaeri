@@ -14,7 +14,7 @@ sudo apt --yes remove \
 
 rclone="$(command -v rclone | head -1)"
 
-if [ ! -n "$rclone" ]; then
+if [[ ! -n "$rclone" ]]; then
 	sudo -v ; curl https://rclone.org/install.sh | sudo bash
 else
 	echo

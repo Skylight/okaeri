@@ -9,7 +9,7 @@ echo
 
 eb="$(command -v eb | head -1)"
 
-if [ ! -n "$eb" ]; then
+if [[ ! -n "$eb" ]]; then
 	cd $OKAERI_BUILD_PATH
 
 	git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git

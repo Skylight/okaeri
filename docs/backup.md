@@ -32,7 +32,7 @@ echo "[backup] start"
   --checksum \
   --skip-links
 
-if [ $? -ne 0 ]; then
+if [[ $? -ne 0 ]]; then
   echo "[backup] end - error"
 
   $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run error --message "Backup Failed ($?)"

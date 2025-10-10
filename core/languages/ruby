@@ -1,8 +1,10 @@
 #!/bin/bash
 
-if [ ! -d "$HOME/.rbenv" ]; then
-    echo "You need to run \`core/setup\` first to install rbenv"
-    exit 1
+rbenv="$(command -v rbenv | head -1)"
+
+if [[ ! -n "$rbenv" ]]; then
+  echo "You need to run \`core/setup\` first to install rbenv"
+  exit 1
 fi
 
 RUBY_VERSION=3.4.6

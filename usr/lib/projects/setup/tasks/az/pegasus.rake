@@ -20,7 +20,6 @@ namespace :az do
     desc "Checks out the project in the designated folder"
     task :checkout_project do
       Okaeri::Disk.ensure_path!(PROJECT_ROOT_PATH)
-      Okaeri::Disk.touch!(File.join(PROJECT_ROOT_PATH, '.ignore-sync'))
 
       unless File.directory?(PROJECT_PATH)
         Dir.chdir(PROJECT_ROOT_PATH) do
@@ -43,9 +42,9 @@ namespace :az do
 
     desc "Install Node & Packages (for asset building support)"
     task :install_node_and_packages do
-      Dir.chdir(PROJECT_ROOT_PATH) do
-        `nvm install`
-        `npm install`
+      Dir.chdir(PROJECT_PATH) do
+        system("bash", "-c", "source $HOME/.nvm/nvm.sh && nvm install")
+        system("bash", "-c", "source $HOME/.nvm/nvm.sh && npm install")
       end
     end
 

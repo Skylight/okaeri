@@ -2,11 +2,11 @@
 
 set -e
 
-if ! type -p git >/dev/null; then
+if [[ ! type -p git >/dev/null ]]; then
 	sudo apt --yes install git
 fi
 
-if [ ! -d "$HOME/okaeri" ]; then
+if [[ ! -d "$HOME/okaeri" ]]; then
 	echo "Setting up repository"
 	cd $HOME
 	git clone https://github.com/Skylight/okaeri.git

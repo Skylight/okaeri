@@ -15,7 +15,7 @@ sudo apt --yes remove \
 
 rbenv="$(command -v rbenv | head -1)"
 
-if [ ! -n "$rbenv" ]; then
+if [[ ! -n "$rbenv" ]]; then
 	curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
 else
 	echo

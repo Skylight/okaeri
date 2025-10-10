@@ -1,7 +1,6 @@
 #!/bin/bash
 
 source "$HOME/okaeri/config/boot"
-source "$OKAERI_PATHS_SCRIPT"
 
 # Exports
 
@@ -20,6 +19,28 @@ export OKAERI_TMP_PATH
 export OKAERI_TOOLS_PATH
 export OKAERI_WORK_PATH
 
+# eb - AWS Elastic Beanstalk command line tool
+
+if [[ -d "$HOME/.ebcli-virtual-env/executables" ]]; then
+  export PATH="$HOME/.ebcli-virtual-env/executables:$PATH"
+fi
+
+# RB Env
+
+if [[ -d "$HOME/.rbenv" ]]; then
+  if [[ ":$PATH:" != *":$HOME/.rbenv/bin:"* ]]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+  fi
+fi
+
+## SQLPackage
+
+if [[ -d "$OKAERI_TOOLS_PATH/sqlpackage" ]]; then
+  export PATH="$OKAERI_TOOLS_PATH/sqlpackage:$PATH"
+fi
+
+export PATH="$OKAERI_PATH/usr/bin:./bin:$PATH"
+
 echo "Okaeri $OKAERI_VERSION"
 
 # VS Code
@@ -29,37 +50,31 @@ alias bake="rake --rakefile $OKAERI_PATH/usr/lib/projects/setup/Rakefile"
 
 ## Working Directories
 
-if [ ! -d $OKAERI_DOCKER_VOLUMES_PATH ]; then
+if [[ ! -d $OKAERI_DOCKER_VOLUMES_PATH ]]; then
   mkdir $OKAERI_DOCKER_VOLUMES_PATH
-  touch "$OKAERI_DOCKER_VOLUMES_PATH/.ignore-sync"
 fi
 
-if [ ! -d $OKAERI_BUILD_PATH ]; then
+if [[ ! -d $OKAERI_BUILD_PATH ]]; then
   mkdir $OKAERI_BUILD_PATH
-  touch "$OKAERI_BUILD_PATH/.ignore-sync"
 fi
 
-if [ ! -d $OKAERI_DUMP_PATH ]; then
+if [[ ! -d $OKAERI_DUMP_PATH ]]; then
   mkdir $OKAERI_DUMP_PATH
-  touch "$OKAERI_DUMP_PATH/.ignore-sync"
 fi
 
-if [ ! -d $OKAERI_LOG_PATH ]; then
+if [[ ! -d $OKAERI_LOG_PATH ]]; then
   mkdir $OKAERI_LOG_PATH
-  touch "$OKAERI_LOG_PATH/.ignore-sync"
 fi
 
-if [ ! -d $OKAERI_TMP_PATH ]; then
+if [[ ! -d $OKAERI_TMP_PATH ]]; then
   mkdir $OKAERI_TMP_PATH
-  touch "$OKAERI_TMP_PATH/.ignore-sync"
 fi
 
-if [ ! -d $OKAERI_TOOLS_PATH ]; then
+if [[ ! -d $OKAERI_TOOLS_PATH ]]; then
   mkdir $OKAERI_TOOLS_PATH
-  touch "$OKAERI_TOOLS_PATH/.ignore-sync"
 fi
 
-if [ ! -d $OKAERI_WORK_PATH ]; then
+if [[ ! -d $OKAERI_WORK_PATH ]]; then
   mkdir $OKAERI_WORK_PATH
 fi
 

@@ -15,6 +15,6 @@ OKAERI_WORK_PATH="$HOME/Work"
 OKAERI_INITIALIZE_SCRIPT="$OKAERI_PATH/core/bash/initialize"
 OKAERI_PATHS_SCRIPT="$OKAERI_PATH/core/bash/paths"
 
-if [ -f "$OKAERI_PATH/config/override" ]; then
+if [[ -f "$OKAERI_PATH/config/override" ]]; then
   source "$OKAERI_PATH/config/override"
 fi
