@@ -1,9 +1,9 @@
 namespace :az do
 
-  namespace :pegasus do
+  namespace :aap do
 
-    PROJECT_ROOT_PATH = File.join(ENV['OKAERI_WORK_PATH'], 'AstraZeneca', 'az.pegasus')
-    PROJECT_PATH = File.join(PROJECT_ROOT_PATH, 'az.pegasus')
+    AAP_PROJECT_ROOT_PATH = File.join(ENV['OKAERI_WORK_PATH'], 'AstraZeneca', 'az.pegasus')
+    AAP_PROJECT_PATH = File.join(AAP_PROJECT_ROOT_PATH, 'az.pegasus')
 
     desc "Prepare DockerVolumes directories"
     task :prepare_docker_volumes_paths do
@@ -19,30 +19,30 @@ namespace :az do
 
     desc "Checks out the project in the designated folder"
     task :checkout_project do
-      Okaeri::Disk.ensure_path!(PROJECT_ROOT_PATH)
+      Okaeri::Disk.ensure_path!(AAP_PROJECT_ROOT_PATH)
 
-      unless File.directory?(PROJECT_PATH)
-        Dir.chdir(PROJECT_ROOT_PATH) do
+      unless File.directory?(AAP_PROJECT_PATH)
+        Dir.chdir(AAP_PROJECT_ROOT_PATH) do
           `git clone git@github.com:Skylight/az.pegasus.git`
         end
       end
 
-      Okaeri::Disk.ensure_path!(File.join(PROJECT_PATH, 'app', 'logs'))
+      Okaeri::Disk.ensure_path!(File.join(AAP_PROJECT_PATH, 'app', 'logs'))
     end
 
     desc "Build Docker Images"
     task :build_docker_images do
-      Dir.chdir(File.join(PROJECT_PATH, 'docker', 'az-aap')) do
+      Dir.chdir(File.join(AAP_PROJECT_PATH, 'docker', 'az-aap')) do
         `docker build -t az-aap:local .`
       end
-      Dir.chdir(File.join(PROJECT_PATH, 'docker', 'webpack')) do
+      Dir.chdir(File.join(AAP_PROJECT_PATH, 'docker', 'webpack')) do
         `docker build -t webpack:local .`
       end
     end
 
     desc "Install Node & Packages (for asset building support)"
     task :install_node_and_packages do
-      Dir.chdir(PROJECT_PATH) do
+      Dir.chdir(AAP_PROJECT_PATH) do
         system("bash", "-c", "source $HOME/.nvm/nvm.sh && nvm install")
         system("bash", "-c", "source $HOME/.nvm/nvm.sh && npm install")
       end
@@ -59,10 +59,10 @@ namespace :az do
 
     desc "Dump database(s)"
     task :dump, [:name] do |t, args|
-      dump_path = File.join(ENV['OKAERI_DUMP_PATH'], 'AstraZeneca', 'az.pegasus', 'latest')
+      dump_path = File.join(ENV['OKAERI_DUMP_PATH'], 'AstraZeneca', 'aap', 'latest')
       Okaeri::Disk.ensure_path!(dump_path)
 
-      config_file = File.join(PROJECT_PATH, 'bootstrap', 'database.yml')
+      config_file = File.join(AAP_PROJECT_PATH, 'bootstrap', 'database.yml')
       raise "Unable to locate config file: #{config_file}" unless File.readable?(config_file)
 
       config = YAML.load_file(config_file, aliases: true).reject{|key| key == 'default'}
@@ -76,7 +76,7 @@ namespace :az do
         end
         puts "\n  or\n\n"
         puts "  *\n\n"
-        puts "\tbake az:pegasus:dump[*]\n\n"
+        puts "\tbake az:aap:dump[*]\n\n"
         exit 0
       end
 
@@ -106,10 +106,10 @@ namespace :az do
 
     desc "Restore database(s)"
     task :restore, [:name] do |t, args|
-      load_path = File.join(ENV['OKAERI_DUMP_PATH'], 'AstraZeneca', 'az.pegasus', 'latest')
+      load_path = File.join(ENV['OKAERI_DUMP_PATH'], 'AstraZeneca', 'aap', 'latest')
       Okaeri::Disk.ensure_path!(load_path)
 
-      config_file = File.join(PROJECT_PATH, 'bootstrap', 'database.yml')
+      config_file = File.join(AAP_PROJECT_PATH, 'bootstrap', 'database.yml')
       raise "Unable to locate config file: #{config_file}" unless File.readable?(config_file)
 
       config = YAML.load_file(config_file, aliases: true).reject{|key| key == 'default'}
@@ -123,7 +123,7 @@ namespace :az do
         end
         puts "\n  or\n\n"
         puts "  *\n\n"
-        puts "\tbake az:pegasus:restore[*]\n\n"
+        puts "\tbake az:aap:restore[*]\n\n"
         exit 0
       end
 
