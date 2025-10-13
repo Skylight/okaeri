@@ -2,7 +2,7 @@
 
 set -e
 
-if [[ ! type -p git >/dev/null ]]; then
+if ! type -p git >/dev/null; then
 	sudo apt --yes install git
 fi
 
