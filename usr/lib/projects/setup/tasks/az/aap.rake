@@ -43,8 +43,8 @@ namespace :az do
     desc "Install Node & Packages (for asset building support)"
     task :install_node_and_packages do
       Dir.chdir(AAP_PROJECT_PATH) do
-        system("bash", "-c", "source $HOME/.nvm/nvm.sh && nvm install")
-        system("bash", "-c", "source $HOME/.nvm/nvm.sh && npm install")
+        `nvm install`
+        `npm install`
       end
     end
 
@@ -53,8 +53,7 @@ namespace :az do
       'core:ensure_default_work_path_structure',
       :prepare_docker_volumes_paths,
       :checkout_project,
-      :build_docker_images,
-      :install_node_and_packages
+      :build_docker_images
     ] do; end
 
     desc "Dump database(s)"

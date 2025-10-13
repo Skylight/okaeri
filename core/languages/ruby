@@ -12,6 +12,8 @@ RUBY_VERSION=3.4.6
 rbenv install $RUBY_VERSION --skip-existing
 rbenv global $RUBY_VERSION
 
+. $OKAERI_INITIALIZE_SCRIPT
+
 cd $OKAERI_PATH
 
 bundle install
