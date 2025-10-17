@@ -12,6 +12,7 @@
 - /DockerVolumes/
 - /Downloads/
 - /.gradle/
+- /.ivy2/
 - /.java/
 - /.local/
 - /okaeri/
@@ -28,6 +29,7 @@
 - /.var/
 - /VirtualMachines/
 - /.vscode/
+- /.vscode-server/
 - /.zoom/
 
 # Ignore files/folders that match

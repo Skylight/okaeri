@@ -30,12 +30,12 @@ class VirtualMachineManager
     while (limit > 0) && self.running?
       sleep 5
       limit -= 1
-      puts "... checking #{@virtual_machine}"
+      puts "... checking `#{@virtual_machine}`"
     end
 
     raise "Stop VM limit reached, unable to stop VM" if limit <= 0
 
-    puts "Stopped #{@virtual_machine}"
+    puts "Stopped `#{@virtual_machine}`"
   end
 
 

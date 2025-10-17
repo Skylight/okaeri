@@ -36,15 +36,79 @@ if [[ $? -ne 0 ]]; then
   echo "[backup] end - error"
 
   $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run error --message "Backup Failed ($?)"
-  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o red" --name "[slider] Home" --description "Backup Failed ($?)" --user backup
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o red" --name "[$OKAERI_HOSTNAME] Home" --description "Backup Failed ($?)" --user backup
 else
   echo "[backup] end - success"
 
   $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run end
-  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[slider] Home" --description "Backup Complete" --user backup
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[$OKAERI_HOSTNAME] Home" --description "Backup Complete" --user backup
 fi
 
 echo "[backup] done"
+```
+
+### Backup Virtual Machines
+
+```bash
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+source=/home/smath/VirtualMachines
+destination=/media/smath/ScooterBackup/backup/VirtualMachines
+watchdog=f2cf12d79835d45e9e2ce9c96bdb23100bb0c567
+vm=win10
+
+echo "[backup] source:      $source"
+echo "[backup] destination: $destination"
+echo "[backup] watchdog:    $watchdog"
+
+run="run-$(date +%s)"
+
+echo "[backup] run:         $run"
+
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run begin
+
+running=$($OKAERI_PATH/usr/bin/virtual-machine-manager running $vm)
+
+if [[ "$running" == "yes" ]]; then
+	echo "[backup] stopping vm \`$vm\`"
+
+	$OKAERI_PATH/usr/bin/virtual-machine-manager stop $vm
+
+	if [ $? -ne 0 ]; then
+		$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run error --message "Failed to stop VM ($?)"
+		$OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o red" --name "[$OKAERI_HOSTNAME] Virtual Machines" --description "Failed to stop VM ($?)" --user backup
+
+		exit 1
+	fi
+fi
+
+echo "[backup] start"
+
+/usr/bin/rclone sync $source $destination \
+  --log-level info \
+  --skip-links
+
+if [ $? -ne 0 ]; then
+  echo "[backup] end - error"
+
+  $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run error --message "Backup Failed ($?)"
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o red" --name "[$OKAERI_HOSTNAME] Virtual Machines" --description "Backup Failed ($?)" --user backup
+else
+  echo "[backup] end - success"
+
+  $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run end
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[$OKAERI_HOSTNAME] Virtual Machines" --description "Backup Complete" --user backup
+fi
+
+echo "[backup] done"
+
+if [[ "$running" == "yes" ]]; then
+	echo "[backup] starting vm \`$vm\`"
+
+	$OKAERI_PATH/usr/bin/virtual-machine-manager start $vm
+fi
 ```
 
 ### Create a backup from your backup drive to diskstation
@@ -79,12 +143,12 @@ if [ $? -ne 0 ]; then
   echo "[backup] end - error"
 
   $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run error --message "Backup Failed ($?)"
-  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o red" --name "[slider] Diskstation" --description "Backup Failed ($?)" --user backup
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o red" --name "[$OKAERI_HOSTNAME] Diskstation" --description "Backup Failed ($?)" --user backup
 else
   echo "[backup] end - success"
 
   $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run end
-  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[slider] Diskstation" --description "Backup Complete" --user backup
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[$OKAERI_HOSTNAME] Diskstation" --description "Backup Complete" --user backup
 fi
 
 echo "[backup] done"
