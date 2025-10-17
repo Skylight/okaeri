@@ -6,60 +6,99 @@ class VirtualMachineManager
     @virtual_machine = virtual_machine
   end
 
-  def status
-    response = `/usr/bin/virsh list --all`
-
-    raise "Unexepect result for vm_status `#{$?.exitstatus}`" if $?.exitstatus != 0
-
-    response.split("\n").each do |line|
-      if matches = line.match(/#{@virtual_machine}\s+(.+)\Z/)
-        return matches[1]
-      end
-    end
-
-    return 'unknown'
+  def running?
+    self.status == 'running'
   end
 
+  def status
+    response = `virsh domstate #{@virtual_machine}`
+
+    raise "Unexpected result for domain `#{@virtual_machine}` with status `#{$?.exitstatus}`" if $?.exitstatus != 0
+
+    response.strip
+  end
+
+  def stop
+    if !self.running?
+      puts "`#{@virtual_machine}` already stopped"
+      return
+    end
+
+    self.shutdown
+
+    limit = 90
+    while (limit > 0) && self.running?
+      sleep 5
+      limit -= 1
+      puts "... checking #{@virtual_machine}"
+    end
+
+    raise "Stop VM limit reached, unable to stop VM" if limit <= 0
+
+    puts "Stopped #{@virtual_machine}"
+  end
+
+
   def shutdown
+    if !self.running?
+      puts "`#{@virtual_machine}` already shutdown"
+      return
+    end
+
+    puts "Shutting down `#{@virtual_machine}`"
+
     `/usr/bin/virsh shutdown #{@virtual_machine}`
   end
 
   def start
+    if self.running?
+      puts "`#{@virtual_machine}` already running"
+      return
+    end
+
+    puts "Starting `#{@virtual_machine}`"
+
     `/usr/bin/virsh start #{@virtual_machine}`
   end
 end
 
-  #   limit = 180
-  #   while (limit > 0) && vm_status(options[:stop_vm]) == 'running'
-  #     sleep 1
-  #     limit -= 1
-  #   end
+arguments = ARGV
 
-  #   send_watchdog(options[:watchdog], run, 'warning', "Stop VM limit reached, unable to stop VM") if limit <= 0
-  #   raise "Stop VM limit reached, unable to stop VM" if limit <= 0
-  # end
+if arguments.count != 2
+  puts
+  puts "Usage: virtual-machine-manager [command] [domain]"
+  puts
+  puts "Commands available;"
+  puts
+  puts "\trunning\t\tReturns yes or no"
+  puts "\tshutdown\t\tShutdown a domain, but don't wait until its stopped"
+  puts "\tstart\t\tStarts a domain"
+  puts "\tstop\t\tShutdown a domain and wait for it to be stopped"
+  puts "\tstatus\t\tReturns the status of the machine"
+  puts
 
+  exit 0
+end
 
-# def vm_shutdown(vm)
-#   `/usr/bin/virsh shutdown #{vm}`
-# end
+command = ARGV[0]
+domain = ARGV[1]
 
-# def vm_start(vm)
-#   `/usr/bin/virsh start #{vm}`
-# end
+vmm = VirtualMachineManager.new(domain)
 
-# def vm_status(vm)
-#   response = `/usr/bin/virsh list --all`
-#   raise "Unexepect result for vm_status `#{$?.exitstatus}`" if $?.exitstatus != 0
-
-#   response.split("\n").each do |line|
-#     if matches = line.match(/#{vm}\s+(.+)\Z/)
-#       return matches[1]
-#     end
-#   end
-
-#   return 'unknown'
-# end
-
-
-# puts "OK"
+begin
+  case command
+  when 'running'
+    puts vmm.running? ? 'yes' : 'no'
+  when 'shutdown'
+    puts vmm.shutdown
+  when 'start'
+    puts vmm.start
+  when 'stop'
+    puts vmm.stop
+  when 'status'
+    puts vmm.status
+  end
+rescue Exception => e
+  puts "Something went wrong!! #{e.message}"
+  exit 1
+end
