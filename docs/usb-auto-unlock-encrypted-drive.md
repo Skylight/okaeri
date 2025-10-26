@@ -88,17 +88,17 @@ sudo chmod 755 /etc/initramfs-tools/scripts/local-top/usb-key-unlock
 
 Modify the `/etc/crypttab` file from;
 ```bash
-cryptroot UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx none luks
+cryptroot UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx none luks,discard
 ```
 
 to
 ```bash
-cryptroot UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx /crypto_keyfile.bin luks
+cryptroot UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx /crypto_keyfile.bin luks,discard
 ```
 
 The whole file should look something like this;
 ```bash
-cryptdata UUID=c958f979-c6be-424b-afe9-2b69cdb93faf /crypto_keyfile.bin luks
+cryptdata UUID=c958f979-c6be-424b-afe9-2b69cdb93faf /crypto_keyfile.bin luks,discard
 ```
 
 Regenerate initramfs;
