@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+$HOME/.rbenv/bin/rbenv exec ruby $OKAERI_PATH/usr/lib/vmm/virtual_machine_manager.rb "$@"

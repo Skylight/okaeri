@@ -62,6 +62,7 @@ vm=win10
 echo "[backup] source:      $source"
 echo "[backup] destination: $destination"
 echo "[backup] watchdog:    $watchdog"
+echo "[backup] vm:          $vm"
 
 run="run-$(date +%s)"
 
@@ -74,6 +75,8 @@ running=$($OKAERI_PATH/usr/bin/virtual-machine-manager running $vm)
 if [[ "$running" == "yes" ]]; then
 	echo "[backup] stopping vm \`$vm\`"
 
+	$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run log --message "[backup] stopping vm \`$vm\`"
+
 	$OKAERI_PATH/usr/bin/virtual-machine-manager stop $vm
 
 	if [ $? -ne 0 ]; then
@@ -85,9 +88,12 @@ if [[ "$running" == "yes" ]]; then
 fi
 
 echo "[backup] start"
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run log --message "[backup] start"
 
-/usr/bin/rclone sync $source $destination \
+
+/usr/bin/rclone copy $source $destination \
   --log-level info \
+  --no-check-dest \
   --skip-links
 
 if [ $? -ne 0 ]; then
@@ -103,6 +109,8 @@ else
 fi
 
 echo "[backup] done"
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run log --message "[backup] done"
+
 
 if [[ "$running" == "yes" ]]; then
 	echo "[backup] starting vm \`$vm\`"
