@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 class VirtualMachineManager
 
   def initialize(virtual_machine)
@@ -11,7 +9,7 @@ class VirtualMachineManager
   end
 
   def status
-    response = `virsh domstate #{@virtual_machine}`
+    response = `virsh -c qemu:///system domstate #{@virtual_machine}`
 
     raise "Unexpected result for domain `#{@virtual_machine}` with status `#{$?.exitstatus}`" if $?.exitstatus != 0
 
@@ -47,7 +45,7 @@ class VirtualMachineManager
 
     puts "Shutting down `#{@virtual_machine}`"
 
-    `/usr/bin/virsh shutdown #{@virtual_machine}`
+    `/usr/bin/virsh -c qemu:///system shutdown #{@virtual_machine}`
   end
 
   def start
@@ -58,7 +56,7 @@ class VirtualMachineManager
 
     puts "Starting `#{@virtual_machine}`"
 
-    `/usr/bin/virsh start #{@virtual_machine}`
+    `/usr/bin/virsh -c qemu:///system start #{@virtual_machine}`
   end
 end
 
