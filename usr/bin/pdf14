@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo "Error: Please provide exactly one file name as an argument." >&2
+    exit 1
+fi
+
+if [ ! -f "$1" ]; then
+    echo "Error: File '$1' does not exist." >&2
+    exit 1
+fi
+
+echo "File '$1' exists."
+
+input_file="$1"
+output_file="${input_file%.pdf}_v_1_4.pdf"
+
+gs -dNOPAUSE -dBATCH -dQUIET \
+   -sDEVICE=pdfwrite \
+   -dCompatibilityLevel=1.4 \
+   -dPDFSETTINGS=/prepress \
+   -dPreserveAnnots=true \
+   -dPreserveEPSInfo=true \
+   -dPreserveOPIComments=true \
+   -dPreserveOverprintSettings=true \
+   -dPreserveHalftoneInfo=true \
+   -dEmbedAllFonts=true \
+   -dSubsetFonts=false \
+   -sOutputFile="$output_file" \
+   "$input_file"
+
+if [ $? -eq 0 ]; then
+    echo "Successfully converted '$input_file' to PDF 1.4: '$output_file'"
+else
+    echo "Error: Conversion failed." >&2
+    exit 1
+fi
