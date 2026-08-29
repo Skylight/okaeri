@@ -14,7 +14,6 @@ sudo add-apt-repository --yes ppa:git-core/ppa
 
 sudo apt --yes install \
 	autoconf \
-	awscli \
 	bison \
 	build-essential \
 	ca-certificates \

@@ -70,7 +70,7 @@ module Awsl2eb
 
         File.unlink(gpg_file) if File.exist?(gpg_file)
 
-        execute(%Q(/usr/bin/aws s3 cp "#{s3_file}" "#{gpg_file}" --profile #{@aws_profile}))
+        execute(%Q(/usr/local/bin/aws s3 cp "#{s3_file}" "#{gpg_file}" --profile #{@aws_profile}))
 
         abort "File `#{gpg_file}` not found" unless File.exist?(gpg_file)
 
