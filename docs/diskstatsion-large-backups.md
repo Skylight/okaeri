@@ -50,3 +50,10 @@ Monitor the progress in real time by tailing the log file:
 ```bash
 tail -f BASE20260703.log
 ```
+
+### TODO
+
+```bash
+/usr/local/bin/rclone bisync /volume1/Encrypted ds-hq:Encrypted
+nohup /usr/local/bin/rclone bisync /volume1/Encrypted ds-hq:Encrypted --resync -v > ./rclone-bisync-resync.log 2>&1 &
+```
