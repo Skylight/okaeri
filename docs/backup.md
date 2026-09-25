@@ -10,7 +10,7 @@
 source "$HOME/okaeri/config/boot"
 
 source=/home/smath
-destination=/media/smath/BackupSmatPopOs/backup/BASE20251006/home/smath
+destination=/media/smath/ScooterBackup/backup/BASE20260802/home/smath
 watchdog=<token>
 
 echo "[backup] source:      $source"
@@ -25,12 +25,14 @@ $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run begin
 
 echo "[backup] start"
 
-/usr/bin/rclone sync $source $destination \
-  --filter-from $OKAERI_PATH/usr/etc/rclone/home-filter-from.txt \
-  --delete-excluded \
-  --log-level info \
+/usr/bin/rsync --archive \
+  --verbose \
   --checksum \
-  --skip-links
+  --delete-excluded \
+  --filter=". $OKAERI_PATH/usr/etc/rclone/home-filter-from.txt" \
+  --no-links \
+  --info=progress2,name0 \
+  "$source/" "$destination/"
 
 if [[ $? -ne 0 ]]; then
   echo "[backup] end - error"
@@ -56,7 +58,7 @@ source "$HOME/okaeri/config/boot"
 
 source=/home/smath/VirtualMachines
 destination=/media/smath/ScooterBackup/backup/VirtualMachines
-watchdog=f2cf12d79835d45e9e2ce9c96bdb23100bb0c567
+watchdog=<token>
 vm=win10
 
 echo "[backup] source:      $source"
@@ -90,11 +92,13 @@ fi
 echo "[backup] start"
 $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run log --message "[backup] start"
 
+/usr/bin/rsync --archive \
+  --verbose \
+  --checksum \
+  --no-links \
+  --info=progress2,name0 \
+  "$source/" "$destination/"
 
-/usr/bin/rclone copy $source $destination \
-  --log-level info \
-  --no-check-dest \
-  --skip-links
 
 if [ $? -ne 0 ]; then
   echo "[backup] end - error"
@@ -126,8 +130,8 @@ fi
 
 source "$HOME/okaeri/config/boot"
 
-source=/media/smath/BackupSmatPopOs/backup
-destination=diskstation:Encrypted/Machines/slider/backup
+source=/media/smath/ScooterBackup/backup
+destination=diskstation.lasgarosses.net:/volume1/Encrypted/Machines/$OKAERI_HOSTNAME/backup
 watchdog=<token>
 
 echo "[backup] source:      $source"
@@ -142,10 +146,14 @@ $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run begin
 
 echo "[backup] start"
 
-/usr/bin/rclone sync $source $destination \
-  --log-level info \
+/usr/bin/rsync --archive \
+  --verbose \
   --checksum \
-  --skip-links
+  --delete \
+  --no-links \
+  --info=progress2,name0 \
+  --rsync-path="/bin/rsync" \
+  "$source/" "$destination/"
 
 if [ $? -ne 0 ]; then
   echo "[backup] end - error"
@@ -177,5 +185,6 @@ source "$HOME/bin/backup-backup-to-diskstation"
 
 ```bash
 10 20 * * * ~/bin/backup-home-to-backup > $HOME/Log/backup-home-to-backup-cron.log 2>&1
-10 2 * * * ~/bin/backup-backup-to-diskstation > $HOME/Log/backup-backup-to-diskstation-cron.log 2>&1
+10 22 * * 3,6 ~/bin/backup-virtualmachines-to-backup > $HOME/Log/backup-virtualmachines-to-backup-cron.log 2>&1
+10 23 * * * ~/bin/backup-backup-to-diskstation > $HOME/Log/backup-backup-to-diskstation-cron.log 2>&1
 ```
