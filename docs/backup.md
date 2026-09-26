@@ -2,6 +2,103 @@
 
 ## Create individual backup step script
 
+### Snapshot backup
+
+```bash
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+source=/media/smath/ScooterBackup/backup/BASE20260802
+build=/media/smath/ScooterBackup/build/BASE20260802
+snapshots=/media/smath/ScooterBackup/snapshots/BASE20260802
+snapfile="$(date +%Y%m%d%H%M%S)-snapshot"
+
+watchdog=df3a0aedad0a388576fea732c8eed342e522e553
+
+run="run-$(date +%s)"
+
+echo "[backup] run:         $run"
+
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run begin
+
+$OKAERI_PATH/usr/bin/archive-folder $source $build $snapfile
+mv $build/$snapfile.* $snapshots
+
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run end
+$OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[$OKAERI_HOSTNAME] Virtual Machines" --description "Backup Complete" --user backup
+```
+
+### Backup home path with snapshot diffs
+
+```bash
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+source=/home/smath
+destination=/media/smath/ScooterBackup/backup/BASE20260802/home/smath
+build=/media/smath/ScooterBackup/build/BASE20260802
+difffile="$(date +%Y%m%d%H%M%S)-diff"
+snapshots=/media/smath/ScooterBackup/snapshots/BASE20260802
+watchdog=20a8a99a6dba3957419ae170b8b5737efac448ef
+
+echo "[backup] source:      $source"
+echo "[backup] destination: $destination"
+echo "[backup] watchdog:    $watchdog"
+
+echo ""
+
+echo "[backup] dif ffile:   $difffile"
+echo "[backup] build:       $build"
+echo "[backup] build dir:   $build/$difffile"
+
+run="run-$(date +%s)"
+
+echo "[backup] run:         $run"
+
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run begin
+
+echo "[backup] start"
+
+# /usr/bin/rclone sync $source $destination \
+#   --filter-from $OKAERI_PATH/usr/etc/rclone/home-filter-from.txt \
+#   --delete-excluded \
+#   --log-level info \
+#   --checksum \
+#   --skip-links
+
+mkdir -p "$build/$difffile"
+
+/usr/bin/rsync --archive \
+  --verbose \
+  --checksum \
+  --delete-excluded \
+  --filter=". $OKAERI_PATH/usr/etc/rclone/home-filter-from.txt" \
+  --no-links \
+  --info=progress2,name0 \
+  --backup \
+  --backup-dir "$build/$difffile" \
+  "$source/" "$destination/"
+
+$OKAERI_PATH/usr/bin/archive-folder "$build/$difffile" $build $difffile --delete-source
+mv $build/$difffile.* $snapshots
+
+if [[ $? -ne 0 ]]; then
+  echo "[backup] end - error"
+
+  $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run error --message "Backup Failed ($?)"
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o red" --name "[$OKAERI_HOSTNAME] Home" --description "Backup Failed ($?)" --user backup
+else
+  echo "[backup] end - success"
+
+  $OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run end
+  $OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[$OKAERI_HOSTNAME] Home" --description "Backup Complete" --user backup
+fi
+
+echo "[backup] done"
+```
+
 ### Create a backup from your home drive
 
 ```bash
@@ -187,4 +284,31 @@ source "$HOME/bin/backup-backup-to-diskstation"
 10 20 * * * ~/bin/backup-home-to-backup > $HOME/Log/backup-home-to-backup-cron.log 2>&1
 10 22 * * 3,6 ~/bin/backup-virtualmachines-to-backup > $HOME/Log/backup-virtualmachines-to-backup-cron.log 2>&1
 10 23 * * * ~/bin/backup-backup-to-diskstation > $HOME/Log/backup-backup-to-diskstation-cron.log 2>&1
+```
+
+### Snapshot backup
+
+```bash
+#!/bin/bash
+
+source "$HOME/okaeri/config/boot"
+
+source=/media/smath/ScooterBackup/backup/BASE20260802
+build=/media/smath/ScooterBackup/build/BASE20260802
+snapshots=/media/smath/ScooterBackup/snapshots/BASE20260802
+snapfile="$(date +%Y%m%d%H%M%S)-snapshot"
+
+watchdog=df3a0aedad0a388576fea732c8eed342e522e553
+
+run="run-$(date +%s)"
+
+echo "[backup] run:         $run"
+
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run begin
+
+$OKAERI_PATH/usr/bin/archive-folder $source $build $snapfile
+mv $build/$snapfile.* $snapshots
+
+$OKAERI_PATH/usr/bin/mytime-watchdog $watchdog $run end
+$OKAERI_PATH/usr/bin/mytime-notification --icon "fa-hdd-o green" --name "[$OKAERI_HOSTNAME] Virtual Machines" --description "Backup Complete" --user backup
 ```

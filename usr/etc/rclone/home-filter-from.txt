@@ -10,7 +10,6 @@
 - /.dotnet/
 - /.ebcli-virtual-env/
 - /DockerVolumes/
-- /Downloads/
 - /.gradle/
 - /.ivy2/
 - /.java/
